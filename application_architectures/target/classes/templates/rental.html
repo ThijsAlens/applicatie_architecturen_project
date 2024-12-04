@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/general.html :: head"></div>
+<div th:replace="fragments/general.html :: header"></div>
+<h1>
+    moakt ulder reservoase:
+</h1>
+<p>
+	Welgekomen <p th:text="${session.email}"></p>
+</p>
+
+
+<table>
+    <tr>
+        <td>
+            Pleuts van afhoaling
+        </td>
+        <td>
+            Soort voiture
+        </td>
+        <td>
+            Pleuts woar da ge uwen oude otoo loat
+        </td>
+        <td>
+            Den datum
+        </td>
+        <td>
+            Hoeveel doage
+        </td>
+    </tr>
+    <tr>
+        <form th:object="${newRent}" th:action=@{/rental_again} method="post">
+            <td>
+                <select name="pickup_location" id="pickup_location">
+                    <option value="Mechelen">Mechelen</option>
+                    <option value="Nog_een_stad">Nog_een_stad</option>
+                    <option value="WOOOOOOO">WOOOOOOO</option>
+                </select>
+            </td>
+            <td>
+                <select name="family_car" id="family_car">
+                    <option value="Groot">Groot</option>
+                    <option value="Klein">Klein</option>
+                    <option value="Xander">Xander</option>
+                </select>
+            </td>
+            <td>
+                <select name="pickup_location" id="pickup_location">
+                    <option value="Mechelen">Mechelen</option>
+                    <option value="Nog_een_stad">Nog_een_stad</option>
+                    <option value="WOOOOOOO">WOOOOOOO</option>
+                </select>
+            </td>
+            <td>
+                <input type="date" id="pickup_date" name="pickup_date">
+            </td>
+            <td>
+                <input type="text" id="days" name="days" th:field="*{days}">
+            </td>
+            <td>
+                <button type="submit">Tis in orde!</button>
+            </td>
+        </form>
+    </tr>
+</table>
+<div>
+	De proas die we ulder kunne aonbiede es <span th:text="${rent_price}"></span>
+</div>
+<div th:replace="fragments/general.html :: footer"></div>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+<h1>
+    Zet ulder informase nekier
+</h1>
+<form th:object="${newCostumer}" th:action="@{/register_to_index}" method="post">
+    <table>
+        <tr>
+            <td>ulder noam</td>
+            <td>ulder mail</td>
+            <td>ulder geheime code</td>
+            <td>ulder wooenpleuts</td>
+            <td>ulder gemeejntecode</td>
+            <td>ulder gemeejntenoam</td>
+        </tr>
+        <tr>
+            <td><input type="text" id="name" name="name" th:field="*{name}"> <span th:errors="*{email}"> </td>
+            <td><input type="text" id="email" name="email" th:field="*{email}"> <span th:errors="*{email}"></span> </td>
+            <td><input type="text" id="password" name="password" th:field="*{password}"> <span th:errors="*{password}"></span> </td>
+            <td><input type="text" id="address" name="address" th:field="*{address}"></td>
+            <td><input type="text" id="city_code" name="city_code" th:field="*{pcode}"></td>
+            <td><input type="text" id="city" name="city" th:field="*{city}"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Tis in orde!"></td>
+        </tr>
+    </table>
+</form>
+<div th:replace="fragments/general.html :: footer"></div>
+</html>

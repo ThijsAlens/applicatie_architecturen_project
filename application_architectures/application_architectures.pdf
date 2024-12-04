@@ -1,0 +1,1243 @@
+%PDF-1.0
+2 0 obj
+<< /Length 3 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\ApplicationArchitecturesApplication.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures;)'
+T*
+(import org.springframework.boot.SpringApplication;)'
+(import org.springframework.boot.autoconfigure.SpringBootApplication;)'
+T*
+(@SpringBootApplication)'
+(public class ApplicationArchitecturesApplication {)'
+T*
+(	public static void main\(String[] args\) {)'
+(		SpringApplication.run\(ApplicationArchitecturesApplication.class, args\);)'
+(	})'
+T*
+(})'
+ET
+endstream
+endobj
+3 0 obj
+735
+endobj
+4 0 obj
+<</Type/Page/Parent 1 0 R/Contents 2 0 R>>
+endobj
+5 0 obj
+<< /Length 6 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\controllers\\MainController.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.controllers;)'
+(import krb.soit.application_architectures.model.*;)'
+(import krb.soit.application_architectures.services.MainServiceImpl;)'
+(import krb.soit.application_architectures.services.CustomerServiceImpl;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Controller;)'
+(import org.springframework.ui.Model;)'
+(import org.springframework.validation.Errors;)'
+(import org.springframework.web.bind.annotation.GetMapping;)'
+(import org.springframework.web.bind.annotation.ModelAttribute;)'
+(import org.springframework.web.bind.annotation.PostMapping;)'
+T*
+(import jakarta.annotation.PostConstruct;)'
+(import jakarta.servlet.ServletContext;)'
+(import jakarta.servlet.http.HttpServletRequest;)'
+(import jakarta.servlet.http.HttpSession;)'
+(import jakarta.validation.Valid;)'
+T*
+(@Controller)'
+(public class MainController {)'
+(	)'
+(	@Autowired)'
+(	private ServletContext ctx;)'
+(	)'
+(	@Autowired)'
+(	private MainServiceImpl mainService;)'
+(	)'
+(	@Autowired)'
+(	private CustomerServiceImpl customerService;)'
+(	)'
+(	@PostConstruct)'
+(	public void init_model\(\) {		)'
+(		// ctx.setAttribute\("data", new Data\(\)\);)'
+(		ctx.setAttribute\("allCars", mainService.findAllCars\(\)\);)'
+(		ctx.setAttribute\("allLocations", mainService.findAllLocations\(\)\);)'
+(	})'
+(	)'
+(	@GetMapping\("/"\))'
+(	public String index\(\) {)'
+(		return "index";)'
+(	})'
+(	)'
+(	@GetMapping\("/login.html"\))'
+(	public String login\(\) {)'
+(		return "login";)'
+(	})'
+(	)'
+(	@GetMapping\("/register"\))'
+(	public String register\(Model m\) {)'
+(		m.addAttribute\("newCostumer", new Costumer\(\)\);)'
+(		return "register"; )'
+(	})'
+(	)'
+(	@GetMapping\("/rental.html"\))'
+(	public String rental\(HttpSession ses, Model mod\) {)'
+(		if \(ses.getAttribute\("email"\) != null\) {)'
+(			mod.addAttribute\("newRent", new Rent\(\)\);)'
+(			return "rental";)'
+ET
+endstream
+endobj
+6 0 obj
+2339
+endobj
+7 0 obj
+<</Type/Page/Parent 1 0 R/Contents 5 0 R>>
+endobj
+8 0 obj
+<< /Length 9 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(		} else)'
+(			return "forward:/register";)'
+(	})'
+(	)'
+(	@GetMapping\("/overview.html"\))'
+(	public String overview\(HttpSession ses, Model mod\) {)'
+(		if \(ses.getAttribute\("email"\) != null\))'
+(			return "overview";)'
+(		else)'
+(			return "forward:/register";)'
+(	})'
+(	)'
+(	@GetMapping\("/logout.html"\))'
+(	public String logout\(HttpSession ses\) {)'
+(		ses.invalidate\(\);)'
+(		return "index";)'
+(	})'
+(	)'
+(	@PostMapping\("/login_to_index"\))'
+(	public String login_to_index\(Model mod, HttpSession ses, HttpServletRequest req\) {)'
+(		ArrayList<Costumer> res = customerService.findAllCostumers\(\);)'
+(		if \(res != null\) {)'
+(			Boolean found = false;)'
+(			for\(int i=0; i<res.size\(\); i++\) {)'
+(				if \(req.getParameter\("email"\) == res.get\(i\).getEmail\(\) && req.getParameter\("password"\) == res.get\(i\).getPassword\(\)\) {)'
+(					found = true;)'
+(				})'
+(			})'
+(			if \(found\) {)'
+(				return "index";)'
+(			})'
+(		})'
+(		return "index.html";)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+9 0 obj
+1064
+endobj
+10 0 obj
+<</Type/Page/Parent 1 0 R/Contents 8 0 R>>
+endobj
+11 0 obj
+<< /Length 12 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\controllers\\CustomerController.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.controllers;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Controller;)'
+(import org.springframework.ui.Model;)'
+(import org.springframework.validation.Errors;)'
+(import org.springframework.web.bind.annotation.ModelAttribute;)'
+(import org.springframework.web.bind.annotation.PostMapping;)'
+T*
+(import jakarta.servlet.ServletContext;)'
+(import jakarta.servlet.http.HttpServletRequest;)'
+(import jakarta.servlet.http.HttpSession;)'
+(import jakarta.validation.Valid;)'
+(import krb.soit.application_architectures.model.Costumer;)'
+(import krb.soit.application_architectures.services.CustomerService;)'
+(import krb.soit.application_architectures.services.CustomerServiceImpl;)'
+(import krb.soit.application_architectures.services.MainService;)'
+(import krb.soit.application_architectures.services.MainServiceImpl;)'
+(import krb.soit.application_architectures.services.RentService;)'
+T*
+T*
+(@Controller)'
+(public class CustomerController {)'
+(	)'
+(	@Autowired)'
+(	private CustomerServiceImpl costumerServiceImpl;)'
+(	)'
+(	@PostMapping\("/register_to_index"\))'
+(	public String register\(Model mod, HttpSession ses, HttpServletRequest req, @ModelAttribute\("newCostumer"\) @Valid Costumer costumer, Errors e\) {)'
+(		if \(e.hasErrors\(\)\))'
+(			return "register";)'
+(		)'
+(		ArrayList<Costumer> res = costumerServiceImpl.findAllCostumers\(\);)'
+(		if \(res != null\) {)'
+(			Boolean found = false;)'
+(			for\(int i=0; i<res.size\(\); i++\) {)'
+(				if \(req.getParameter\("email"\) == res.get\(i\).getEmail\(\) && req.getParameter\("password"\) == res.get\(i\).getPassword\(\)\) {)'
+(					found = true;)'
+(				})'
+(			})'
+(			if \(found\) {)'
+(				ses.setAttribute\("email", req.getParameter\("email"\)\);)'
+(				return "index";)'
+(			})'
+(		})'
+(		costumerServiceImpl.addCostumer\(costumer\);)'
+(		ses.setAttribute\("email", req.getParameter\("email"\)\);)'
+(		return "index";)'
+(	})'
+(})'
+ET
+endstream
+endobj
+12 0 obj
+2396
+endobj
+13 0 obj
+<</Type/Page/Parent 1 0 R/Contents 11 0 R>>
+endobj
+14 0 obj
+<< /Length 15 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\controllers\\RentController.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.controllers;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Controller;)'
+(import org.springframework.ui.Model;)'
+(import org.springframework.web.bind.annotation.GetMapping;)'
+(import org.springframework.web.bind.annotation.PostMapping;)'
+T*
+(import jakarta.servlet.http.HttpServletRequest;)'
+(import krb.soit.application_architectures.model.Rent;)'
+(import krb.soit.application_architectures.services.RentService;)'
+(import krb.soit.application_architectures.services.RentServiceImpl;)'
+T*
+(@Controller)'
+(public class RentController {)'
+(	@Autowired)'
+(	private RentServiceImpl rentService;)'
+(	)'
+(	@GetMapping\("/rental"\))'
+(	public String rental\(Model m, HttpServletRequest req\) {)'
+(		m.addAttribute\("rent_price", rentService.berekenPrijs\(Integer.parseInt\(req.getParameter\("days"\)\), 1000\)\);)'
+(		return "rental";)'
+(	})'
+(	)'
+(	@PostMapping\("/rental_again"\))'
+(	public String rental_again\(Model mod, HttpServletRequest req\) {)'
+(		mod.addAttribute\("newRent", new Rent\(\)\);)'
+(		mod.addAttribute\("rent_price", rentService.berekenPrijs\(Integer.parseInt\(req.getParameter\("days"\)\), 1000\)\);)'
+(		return "rental";)'
+(	})'
+(})'
+ET
+endstream
+endobj
+15 0 obj
+1603
+endobj
+16 0 obj
+<</Type/Page/Parent 1 0 R/Contents 14 0 R>>
+endobj
+17 0 obj
+<< /Length 18 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\model\\Car.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.model;)'
+T*
+(import jakarta.persistence.Column;)'
+(import jakarta.persistence.Entity;)'
+(import jakarta.persistence.Id;)'
+(import jakarta.persistence.Table;)'
+T*
+(@Entity)'
+(@Table\(name = "AA_cars"\))'
+(public class Car {)'
+(	@Id)'
+(	@Column\(name = "CARID"\))'
+(	private int id;)'
+(	)'
+(	@Column\(name = "CARTYPE"\))'
+(	private String type;)'
+(	)'
+(	@Column\(name = "CARPRICE"\))'
+(	private double price;)'
+(/*============================================*/)'
+(	public Car\(\) {)'
+(	})'
+(	)'
+(	public Car\(int id, String type, double price\) {)'
+(		this.id = id;)'
+(		this.type = type;)'
+(		this.price = price;)'
+(	})'
+(/*============================================*/)'
+(	public int getId\(\) {)'
+(		return id;)'
+(	})'
+(	public void setId\(int id\) {)'
+(		this.id = id;)'
+(	})'
+(	public String getType\(\) {)'
+(		return type;)'
+(	})'
+(	public void setType\(String type\) {)'
+(		this.type = type;)'
+(	})'
+(	public double getPrice\(\) {)'
+(		return price;)'
+(	})'
+(	public void setPrice\(double price\) {)'
+(		this.price = price;)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+18 0 obj
+1436
+endobj
+19 0 obj
+<</Type/Page/Parent 1 0 R/Contents 17 0 R>>
+endobj
+20 0 obj
+<< /Length 21 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\model\\Data.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.model;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(public class Data {)'
+(	private ArrayList<Car> cars;)'
+(	private ArrayList<Location> locations;)'
+(	)'
+(/*============================================*/)'
+(	)'
+(	public Data\(\) {)'
+(		this.cars = new ArrayList<Car>\(\);)'
+(		this.locations = new ArrayList<Location>\(\);)'
+(	})'
+(	)'
+(/*============================================*/)'
+(	)'
+(	public ArrayList<Car> getCars\(\) {)'
+(		return cars;)'
+(	})'
+(	public void setCars\(ArrayList<Car> cars\) {)'
+(		this.cars = cars;)'
+(	})'
+(	public ArrayList<Location> getLocations\(\) {)'
+(		return locations;)'
+(	})'
+(	public void setLocations\(ArrayList<Location> locations\) {)'
+(		this.locations = locations;)'
+(	})'
+(	)'
+(	)'
+(})'
+ET
+endstream
+endobj
+21 0 obj
+1100
+endobj
+22 0 obj
+<</Type/Page/Parent 1 0 R/Contents 20 0 R>>
+endobj
+23 0 obj
+<< /Length 24 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\model\\Location.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.model;)'
+T*
+(import jakarta.persistence.Column;)'
+(import jakarta.persistence.Entity;)'
+(import jakarta.persistence.Id;)'
+(import jakarta.persistence.Table;)'
+T*
+(@Entity)'
+(@Table\(name = "AA_LOCATIONS"\))'
+(public class Location {)'
+(	@Id)'
+(	@Column\(name = "LOCID"\))'
+(	private int id;)'
+(	)'
+(	@Column\(name = "LOCNAME"\))'
+(	private String name;)'
+(/*============================================*/)'
+(	public Location\(\) {)'
+(	})'
+(	public Location\(int id, String name\) {)'
+(		this.id = id;)'
+(		this.name = name;)'
+(	})'
+(/*============================================*/)'
+(	public int getId\(\) {)'
+(		return id;)'
+(	})'
+(	public void setId\(int id\) {)'
+(		this.id = id;)'
+(	})'
+(	public String getName\(\) {)'
+(		return name;)'
+(	})'
+(	public void setName\(String name\) {)'
+(		this.name = name;)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+24 0 obj
+1210
+endobj
+25 0 obj
+<</Type/Page/Parent 1 0 R/Contents 23 0 R>>
+endobj
+26 0 obj
+<< /Length 27 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\model\\Costumer.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.model;)'
+T*
+(import jakarta.persistence.Column;)'
+(import jakarta.persistence.Entity;)'
+(import jakarta.persistence.Id;)'
+(import jakarta.persistence.JoinColumn;)'
+(import jakarta.persistence.ManyToOne;)'
+(import jakarta.persistence.Table;)'
+(import jakarta.validation.constraints.*;)'
+T*
+(@Entity)'
+(@Table\(name = "AA_CUSTOMERS"\))'
+(public class Costumer {)'
+(	@Column\(name = "NAME"\))'
+(	@NotBlank)'
+(	private String name;)'
+(	@Id)'
+(	@Column\(name = "EMAIL"\))'
+(	@NotBlank)'
+(	private String email;)'
+(	@Column\(name = "PASSWD"\))'
+(	@NotBlank)'
+(	private String password;)'
+(	@Column\(name = "ADDRESS"\))'
+(	@NotBlank)'
+(	private String address;)'
+(	@Column\(name = "PCODE"\))'
+(	@Min\(0\))'
+(	private int pcode;)'
+(	@Column\(name = "CITY"\))'
+(	@NotBlank)'
+(	private String city;)'
+(	@Column\(name = "ENABLED"\))'
+(	private int enabled = 1;)'
+(	)'
+(/*============================================*/)'
+(	)'
+(	public Costumer\(String email, String password, String address, int pcode, String city, int enabled\) {)'
+(		this.email = email;)'
+(		this.password = password;)'
+(		this.address = address;)'
+(		this.pcode = pcode;)'
+(		this.city = city;)'
+(		this.enabled = enabled;)'
+(	})'
+(	)'
+(	public Costumer\(\) {)'
+(	})'
+T*
+(/*============================================*/)'
+(	)'
+(	public String getEmail\(\) {)'
+(		return email;)'
+(	})'
+(	)'
+(	public String getName\(\) {)'
+(		return name;)'
+(	})'
+T*
+(	public void setName\(String name\) {)'
+(		this.name = name;)'
+ET
+endstream
+endobj
+27 0 obj
+1878
+endobj
+28 0 obj
+<</Type/Page/Parent 1 0 R/Contents 26 0 R>>
+endobj
+29 0 obj
+<< /Length 30 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(	})'
+T*
+(	public void setEmail\(String email\) {)'
+(		this.email = email;)'
+(	})'
+(	public String getPassword\(\) {)'
+(		return password;)'
+(	})'
+(	public void setPassword\(String password\) {)'
+(		this.password = password;)'
+(	})'
+(	public String getAddress\(\) {)'
+(		return address;)'
+(	})'
+(	public void setAddress\(String address\) {)'
+(		this.address = address;)'
+(	})'
+(	public int getPcode\(\) {)'
+(		return pcode;)'
+(	})'
+(	public void setPcode\(int pcode\) {)'
+(		this.pcode = pcode;)'
+(	})'
+(	public String getCity\(\) {)'
+(		return city;)'
+(	})'
+(	public void setCity\(String city\) {)'
+(		this.city = city;)'
+(	})'
+(	public int getEnabled\(\) {)'
+(		return enabled;)'
+(	})'
+(	public void setEnabled\(int enabled\) {)'
+(		this.enabled = enabled;)'
+(	})'
+(	)'
+(	)'
+(})'
+ET
+endstream
+endobj
+30 0 obj
+857
+endobj
+31 0 obj
+<</Type/Page/Parent 1 0 R/Contents 29 0 R>>
+endobj
+32 0 obj
+<< /Length 33 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\model\\Rent.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.model;)'
+T*
+(import java.util.Date;)'
+T*
+(import jakarta.persistence.Column;)'
+(import jakarta.persistence.Entity;)'
+(import jakarta.persistence.Id;)'
+(import jakarta.persistence.JoinColumn;)'
+(import jakarta.persistence.ManyToOne;)'
+(import jakarta.persistence.Table;)'
+(import jakarta.validation.constraints.*;)'
+T*
+(@Entity)'
+(@Table\(name = "AA_RESERVATIONS"\))'
+(public class Rent {)'
+(	@Id)'
+(	@Column\(name = "ID"\))'
+(	private int id;)'
+(	)'
+(	@ManyToOne)'
+(	@JoinColumn\(name = "COSTUMER"\))'
+(	private Costumer customer;)'
+(	)'
+(	@ManyToOne)'
+(	@JoinColumn\(name = "PICKUPLOCATION"\))'
+(	private Location pickupLocation;)'
+(	)'
+(	@ManyToOne)'
+(	@JoinColumn\(name = "DROPOFFLOCATION"\))'
+(	private Location dropoffLocation;)'
+(	)'
+(	@ManyToOne)'
+(	@JoinColumn\(name = "CAR"\))'
+(	private Car car;)'
+(	)'
+(	@Column\(name = "DAYS"\))'
+(	@Max\(100\))'
+(	private int days;)'
+(	)'
+(	@Column\(name = "FROMDATE"\))'
+(	private Date fromDate;)'
+(	)'
+(	@Column\(name = "RESDATE"\))'
+(	private Date resDate;)'
+(/*============================================*/)'
+(	)'
+(	public Rent\(int id, int days, Date fromDate, Date resDate\) {)'
+(		this.id = id;)'
+(		this.days = days;)'
+(		this.fromDate = fromDate;)'
+(		this.resDate = resDate;)'
+(	})'
+T*
+(	public Rent\(\) {)'
+(	})'
+T*
+(/*============================================*/)'
+T*
+(	public int getId\(\) {)'
+(		return id;)'
+(	})'
+ET
+endstream
+endobj
+33 0 obj
+1779
+endobj
+34 0 obj
+<</Type/Page/Parent 1 0 R/Contents 32 0 R>>
+endobj
+35 0 obj
+<< /Length 36 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(	public void setId\(int id\) {)'
+(		this.id = id;)'
+(	})'
+(	public int getDays\(\) {)'
+(		return days;)'
+(	})'
+(	public void setDays\(int days\) {)'
+(		this.days = days;)'
+(	})'
+(	public Date getFromDate\(\) {)'
+(		return fromDate;)'
+(	})'
+(	public void setFromDate\(Date fromDate\) {)'
+(		this.fromDate = fromDate;)'
+(	})'
+(	public Date getResDate\(\) {)'
+(		return resDate;)'
+(	})'
+(	public void setResDate\(Date resDate\) {)'
+(		this.resDate = resDate;)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+36 0 obj
+535
+endobj
+37 0 obj
+<</Type/Page/Parent 1 0 R/Contents 35 0 R>>
+endobj
+38 0 obj
+<< /Length 39 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\repositories\\CarRepository.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.repositories;)'
+T*
+(import org.springframework.data.jpa.repository.JpaRepository;)'
+(import org.springframework.stereotype.Repository;)'
+T*
+(import krb.soit.application_architectures.model.Car;)'
+T*
+(@Repository)'
+(public interface CarRepository extends JpaRepository<Car, Integer> {)'
+(	)'
+(})'
+ET
+endstream
+endobj
+39 0 obj
+663
+endobj
+40 0 obj
+<</Type/Page/Parent 1 0 R/Contents 38 0 R>>
+endobj
+41 0 obj
+<< /Length 42 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\repositories\\LocationRepository.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.repositories;)'
+T*
+(import org.springframework.data.jpa.repository.JpaRepository;)'
+(import org.springframework.stereotype.Repository;)'
+T*
+(import krb.soit.application_architectures.model.Location;)'
+T*
+(@Repository)'
+(public interface LocationRepository extends JpaRepository<Location, Integer>{)'
+T*
+(})'
+ET
+endstream
+endobj
+42 0 obj
+680
+endobj
+43 0 obj
+<</Type/Page/Parent 1 0 R/Contents 41 0 R>>
+endobj
+44 0 obj
+<< /Length 45 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\repositories\\CostumerRepository.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.repositories;)'
+T*
+(import org.springframework.data.jpa.repository.JpaRepository;)'
+(import org.springframework.stereotype.Repository;)'
+T*
+(import krb.soit.application_architectures.model.Costumer;)'
+T*
+(@Repository)'
+(public interface CostumerRepository extends JpaRepository<Costumer, String> {)'
+(	)'
+(})'
+ET
+endstream
+endobj
+45 0 obj
+682
+endobj
+46 0 obj
+<</Type/Page/Parent 1 0 R/Contents 44 0 R>>
+endobj
+47 0 obj
+<< /Length 48 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\repositories\\RentRepository.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.repositories;)'
+T*
+(import org.springframework.data.jpa.repository.JpaRepository;)'
+(import org.springframework.stereotype.Repository;)'
+T*
+(import krb.soit.application_architectures.model.Location;)'
+(import krb.soit.application_architectures.model.Rent;)'
+T*
+(@Repository)'
+(public interface RentRepository extends JpaRepository<Rent, Integer> {)'
+T*
+(})'
+ET
+endstream
+endobj
+48 0 obj
+727
+endobj
+49 0 obj
+<</Type/Page/Parent 1 0 R/Contents 47 0 R>>
+endobj
+50 0 obj
+<< /Length 51 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\RentServiceImpl.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Service;)'
+T*
+(import krb.soit.application_architectures.model.Rent;)'
+(import krb.soit.application_architectures.repositories.RentRepository;)'
+T*
+(@Service)'
+(public class RentServiceImpl implements RentService{)'
+(	)'
+(	@Autowired)'
+(	private RentRepository rentRepo;)'
+(	)'
+(	public float berekenPrijs\(int numberOfDays, int priceOfTheDay\) {)'
+(		int p = numberOfDays * \(priceOfTheDay + 1000\);)'
+(		return \(float\) \(p * 1.21\);)'
+(	})'
+(	)'
+(	public void addRent\(Rent r\) {)'
+(		rentRepo.save\(r\);)'
+(	})'
+(	)'
+(	public ArrayList<Rent> findAllRents\(\) {)'
+(		return \(ArrayList<Rent>\) rentRepo.findAll\(\);)'
+(	})'
+(	)'
+(	public void deleteRent\(Rent r\) {)'
+(		rentRepo.delete\(r\);)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+51 0 obj
+1257
+endobj
+52 0 obj
+<</Type/Page/Parent 1 0 R/Contents 50 0 R>>
+endobj
+53 0 obj
+<< /Length 54 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\RentService.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import krb.soit.application_architectures.model.Rent;)'
+T*
+(public interface RentService {)'
+(	public float berekenPrijs\(int numberOfDays, int priceOfTheDay\);)'
+(	public void addRent\(Rent r\);)'
+(	public ArrayList<Rent> findAllRents\(\);)'
+(	public void deleteRent\(Rent r\);)'
+(})'
+ET
+endstream
+endobj
+54 0 obj
+698
+endobj
+55 0 obj
+<</Type/Page/Parent 1 0 R/Contents 53 0 R>>
+endobj
+56 0 obj
+<< /Length 57 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\CustomerService.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import krb.soit.application_architectures.model.Costumer;)'
+T*
+(public interface CustomerService {)'
+(	public ArrayList<Costumer> findAllCostumers\(\);)'
+(	public void addCostumer\(Costumer c\);)'
+(})'
+ET
+endstream
+endobj
+57 0 obj
+616
+endobj
+58 0 obj
+<</Type/Page/Parent 1 0 R/Contents 56 0 R>>
+endobj
+59 0 obj
+<< /Length 60 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\CustomerServiceImpl.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+(import java.util.ArrayList;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Service;)'
+T*
+(import krb.soit.application_architectures.model.Costumer;)'
+(import krb.soit.application_architectures.repositories.CostumerRepository;)'
+T*
+(@Service)'
+(public class CustomerServiceImpl implements CustomerService{)'
+(	)'
+(	@Autowired)'
+(	private CostumerRepository costumerRepo;)'
+(	)'
+(	public ArrayList<Costumer> findAllCostumers\(\) {)'
+(		return \(ArrayList<Costumer>\) costumerRepo.findAll\(\);)'
+(	})'
+(	)'
+(	public void addCostumer\(Costumer c\) {)'
+(		costumerRepo.save\(c\);)'
+(	})'
+(	)'
+(})'
+ET
+endstream
+endobj
+60 0 obj
+1051
+endobj
+61 0 obj
+<</Type/Page/Parent 1 0 R/Contents 59 0 R>>
+endobj
+62 0 obj
+<< /Length 63 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\MainService.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+T*
+(import java.util.ArrayList;)'
+T*
+(import krb.soit.application_architectures.model.Car;)'
+(import krb.soit.application_architectures.model.Location;)'
+T*
+(public interface MainService {)'
+(	public ArrayList<Location> findAllLocations\(\);)'
+(	public ArrayList<Car> findAllCars\(\);)'
+(})'
+ET
+endstream
+endobj
+63 0 obj
+665
+endobj
+64 0 obj
+<</Type/Page/Parent 1 0 R/Contents 62 0 R>>
+endobj
+65 0 obj
+<< /Length 66 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\main\\java\\krb\\soit\\application_architectures\\services\\MainServiceImpl.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures.services;)'
+(import java.util.ArrayList;)'
+(import java.util.Optional;)'
+T*
+(import org.springframework.beans.factory.annotation.Autowired;)'
+(import org.springframework.stereotype.Service;)'
+T*
+(import krb.soit.application_architectures.model.Car;)'
+(import krb.soit.application_architectures.model.Costumer;)'
+(import krb.soit.application_architectures.model.Location;)'
+(import krb.soit.application_architectures.repositories.CarRepository;)'
+(import krb.soit.application_architectures.repositories.CostumerRepository;)'
+(import krb.soit.application_architectures.repositories.LocationRepository;)'
+T*
+(@Service)'
+(public class MainServiceImpl implements MainService {)'
+(	@Autowired)'
+(	private CarRepository carRepo;)'
+(	)'
+(	@Autowired)'
+(	private LocationRepository locationRepo;)'
+(	)'
+(	public ArrayList<Car> findAllCars\(\) {)'
+(		return \(ArrayList<Car>\) carRepo.findAll\(\);)'
+(	})'
+(	)'
+(	public ArrayList<Location> findAllLocations\(\) {)'
+(		return \(ArrayList<Location>\) locationRepo.findAll\(\);)'
+(	})'
+(})'
+ET
+endstream
+endobj
+66 0 obj
+1412
+endobj
+67 0 obj
+<</Type/Page/Parent 1 0 R/Contents 65 0 R>>
+endobj
+68 0 obj
+<< /Length 69 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+(C:\\Users\\r0886323\\Documents\\Applicatiearchitecturen\\application_architectures\\src\\test\\java\\krb\\soit\\application_architectures\\ApplicationArchitecturesApplicationTests.java )'
+(______________________________________________________________________________________ )'
+( )'
+(package krb.soit.application_architectures;)'
+T*
+(import org.junit.jupiter.api.Test;)'
+(import org.springframework.boot.test.context.SpringBootTest;)'
+T*
+(@SpringBootTest)'
+(class ApplicationArchitecturesApplicationTests {)'
+T*
+(	@Test)'
+(	void contextLoads\(\) {)'
+(	})'
+T*
+(})'
+ET
+endstream
+endobj
+69 0 obj
+619
+endobj
+70 0 obj
+<</Type/Page/Parent 1 0 R/Contents 68 0 R>>
+endobj
+71 0 obj
+<< /Length 72 0 R >>
+stream
+BT
+/F0 10 Tf
+72 720 Td
+10 TL
+ET
+endstream
+endobj
+72 0 obj
+37
+endobj
+73 0 obj
+<</Type/Page/Parent 1 0 R/Contents 71 0 R>>
+endobj
+74 0 obj
+<</Type/Font/Subtype/Type1/BaseFont/Courier/Encoding/WinAnsiEncoding>>
+endobj
+1 0 obj
+<</Type /Pages /Count 24
+/Kids[
+4 0 R
+7 0 R
+10 0 R
+13 0 R
+16 0 R
+19 0 R
+22 0 R
+25 0 R
+28 0 R
+31 0 R
+34 0 R
+37 0 R
+40 0 R
+43 0 R
+46 0 R
+49 0 R
+52 0 R
+55 0 R
+58 0 R
+61 0 R
+64 0 R
+67 0 R
+70 0 R
+73 0 R
+]
+/Resources<</ProcSet[/PDF/Text]/Font<</F0 74 0 R>> >>
+/MediaBox [ 0 0 612 792 ]
+>>
+endobj
+75 0 obj
+<</Type/Catalog/Pages 1 0 R>>
+endobj
+xref
+0 76
+0000000000 65535 f 
+0000029616 00000 n 
+0000000010 00000 n 
+0000000802 00000 n 
+0000000824 00000 n 
+0000000885 00000 n 
+0000003281 00000 n 
+0000003304 00000 n 
+0000003365 00000 n 
+0000004486 00000 n 
+0000004509 00000 n 
+0000004571 00000 n 
+0000007026 00000 n 
+0000007050 00000 n 
+0000007113 00000 n 
+0000008775 00000 n 
+0000008799 00000 n 
+0000008862 00000 n 
+0000010357 00000 n 
+0000010381 00000 n 
+0000010444 00000 n 
+0000011603 00000 n 
+0000011627 00000 n 
+0000011690 00000 n 
+0000012959 00000 n 
+0000012983 00000 n 
+0000013046 00000 n 
+0000014983 00000 n 
+0000015007 00000 n 
+0000015070 00000 n 
+0000015986 00000 n 
+0000016009 00000 n 
+0000016072 00000 n 
+0000017910 00000 n 
+0000017934 00000 n 
+0000017997 00000 n 
+0000018591 00000 n 
+0000018614 00000 n 
+0000018677 00000 n 
+0000019399 00000 n 
+0000019422 00000 n 
+0000019485 00000 n 
+0000020224 00000 n 
+0000020247 00000 n 
+0000020310 00000 n 
+0000021051 00000 n 
+0000021074 00000 n 
+0000021137 00000 n 
+0000021923 00000 n 
+0000021946 00000 n 
+0000022009 00000 n 
+0000023325 00000 n 
+0000023349 00000 n 
+0000023412 00000 n 
+0000024169 00000 n 
+0000024192 00000 n 
+0000024255 00000 n 
+0000024930 00000 n 
+0000024953 00000 n 
+0000025016 00000 n 
+0000026126 00000 n 
+0000026150 00000 n 
+0000026213 00000 n 
+0000026937 00000 n 
+0000026960 00000 n 
+0000027023 00000 n 
+0000028494 00000 n 
+0000028518 00000 n 
+0000028581 00000 n 
+0000029259 00000 n 
+0000029282 00000 n 
+0000029345 00000 n 
+0000029441 00000 n 
+0000029463 00000 n 
+0000029526 00000 n 
+0000029946 00000 n 
+trailer
+<<
+/Size 76
+/Root 75 0 R
+>>
+startxref
+29995
+%%EOF

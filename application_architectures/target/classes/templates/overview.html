@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+<link rel="stylesheet" href="css/css.css">
+<p> Welgekomen</p>
+<p th:text="${session.email}"></p>
+<h1>
+    Een oeverzichteke se
+</h1>
+<div th:replace="fragments/general.html :: footer"></div>
+</html>

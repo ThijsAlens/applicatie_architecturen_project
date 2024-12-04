@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+    <div>
+        <form th:action="@{/carstuff_delete}" method="post">
+			<input type="text" id="carID_del" name="carID_del">
+			<input type="submit" value="Verwijdert diene voiture!!!">
+        </form>
+		<p th:text="${session.statusDeletedCar}"></p>
+    </div>
+	
+	<div>
+		<form th:action="@{/carstuff_add}" method="post">
+			<input type="text" id="carID_add" name="carID_add" placeholder="car ID bitte">
+			<input type="text" id="type_add" name="type_add" placeholder="type voiture :)">
+			<input type="text" id="price_add" name="price_add" placeholder="de proijs">
+			<input type="submit" value="Nieve voiture toevoegen se!!!">
+		</form>
+		<p th:text="${session.statusAddedCar}"></p>
+	</div>
+	
+	<div>
+	    <form th:action="@{/carstuff_show}" method="post">
+			<input type="submit" value="showt nekeer al die voituren!">
+	    </form>
+		<p th:text="${session.statusShowCars}"></p>
+	</div>
+		
+    <div th:replace="fragments/general.html :: footer"></div>
+</html>

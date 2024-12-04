@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<div th:replace="fragments/general.html :: head"></div>
+<div th:replace="fragments/general.html :: header"></div>
+<h1>
+    Vuld ulder gegevens nekier in alstamblieft
+</h1>
+<form action="/login_to_index" method="post">
+    <input type="text" id="username" name="name" value="Ulder noam of e-mail" >
+    <!--Ulder noam (e-mail)-->
+    <input type="text" id="password" name="password" value="sshhhht, niemand mag et weijte">
+    <input type="submit" value="Tis in orde!">
+</form>
+	<div th:replace="fragments/general.html :: footer"></div>
+</html>
