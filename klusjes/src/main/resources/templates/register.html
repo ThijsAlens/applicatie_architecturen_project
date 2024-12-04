@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+
+	<h1>
+    	Registreer
+	</h1>
+	<div>
+		<form th:object="${newPerson}" th:action="@{/validate_register}" method="post">
+			
+		</form>
+			
+	</div>
