@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:replace="general.html :: header"></div>
+	<h3>Login</h3>
+	<div th:if="${param.error}">
+	Invalid username and password.</div>
+	<form th:action="@{/login}" method='POST'>
+	<p> Gebruiker: <input type='text' name='username' /> </p>
+	<p> Paswoord: <input type='password' name='password' /> </p>
+	<p> <input type="submit" value="Login" /></p>
+	</form>
+</body>
+</html>
