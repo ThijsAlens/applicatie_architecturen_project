@@ -1,13 +1,13 @@
-package klusjesopracht;
+package klusjes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KlusjesopdrachtApplication {
+public class KlusjesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KlusjesopdrachtApplication.class, args);
+		SpringApplication.run(KlusjesApplication.class, args);
 	}
 
 }
