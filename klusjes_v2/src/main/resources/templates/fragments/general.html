@@ -13,7 +13,7 @@ xmlns:th="http://www.thymeleaf.org">
 	                <a href="/">Home</a>
 	            </td>
 				<td>
-					<p> welkom persoon_x</p>
+					<p th:text=${session.name}></p>
 				</td>
 	            <td>
 	                <a href="/login">Login</a>
