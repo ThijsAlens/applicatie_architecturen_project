@@ -1,4 +1,4 @@
-package model;
+package klusjes_v2.model;
 
 import java.util.ArrayList;
 
