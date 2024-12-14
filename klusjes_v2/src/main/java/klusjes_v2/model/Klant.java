@@ -2,12 +2,15 @@ package klusjes_v2.model;
 
 import java.util.ArrayList;
 
-public class Klant {
+public class Klant implements People{
 	private String username;
 	private String password;
 	
-	public ArrayList<Klusje> getKlusjes() {
-		//haal de klusjes op uit de DB waarbij this de klant is
-		return new ArrayList<Klusje>();
+	public String getUsername() {
+		return this.username;
+	}
+
+	public String getPassword() {
+		return this.password;
 	}
 }

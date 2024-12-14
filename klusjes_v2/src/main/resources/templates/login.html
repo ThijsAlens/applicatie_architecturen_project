@@ -4,13 +4,14 @@
 	<div th:replace="fragments/general.html :: header"></div>
 	
 	<h1>
-	    Vuld ulder gegevens nekier in alstamblieft
+	    Log in
 	</h1>
 	<form action="/login_to_index" method="post">
 	    <input type="text" id="username" name="username" placeholder="e-mail" >
 	    <input type="text" id="password" name="password" placeholder="wachtwoord">
 	    <input type="submit" value="Log in">
 	</form>
+	<a href="/register">Nog geen account, registreer!</a>
 	
 	<div th:replace="fragments/general.html :: footer"></div>
 </html>
