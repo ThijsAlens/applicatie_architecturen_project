@@ -4,5 +4,6 @@ import java.util.ArrayList;
 
 import klusjes_v2.model.People;
 
-public interface MainService {
+public interface PeopleService {
+	public ArrayList<People> findAllPeople();
 }

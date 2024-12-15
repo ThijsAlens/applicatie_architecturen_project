@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+
+    <h1>Registreer</h1>
+    <div>
+        <form action="/register_type_submit" method="post">
+            <label for="isKlusjesman">Ben je een klusjesman?</label><br>
+            <input type="radio" id="yes" name="isKlusjesman" value="Ja" required>
+            <label for="yes">Ja</label><br>
+            <input type="radio" id="no" name="isKlusjesman" value="Nee" required>
+            <label for="no">Nee</label><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</html>

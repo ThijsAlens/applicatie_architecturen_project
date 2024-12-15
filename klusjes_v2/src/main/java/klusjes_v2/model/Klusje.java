@@ -7,32 +7,32 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-//@Entity
-//@Table(name = "AA_klusjes")
+@Entity
+@Table(name = "AA_klusjes")
 public class Klusje {
-	//@Id
-	//@Column(name = "KLUSJESID")
+	@Id
+	@Column(name = "KLUSJESID")
 	private int id;
 	
-	//@Column(name = "KLANT")
+	@Column(name = "KLANT")
 	private Klant klant;
 	
-	//@Column(name = "STATUS")
+	@Column(name = "STATUS")
 	private Status_enum status;
 	
-	//@Column(name = "BESCHRIJVING")
+	@Column(name = "BESCHRIJVING")
 	private String beschrijving;
 	
-	//@Column(name = "PRIJS")
+	@Column(name = "PRIJS")
 	private double prijs;
 	
-	//@Column(name = "GEBODEN_KLUSJESMANNEN")
+	@Column(name = "GEBODEN_KLUSJESMANNEN")
 	private ArrayList <Klusjesman> gebodenKlusjesmannen;
 	
-	//@Column(name = "TOEGEWEZEN_KLUSJESMAN")
+	@Column(name = "TOEGEWEZEN_KLUSJESMAN")
 	private Klusjesman toegewezenKlusjesman;
 	
-	//@Column(name = "SCORE")
+	@Column(name = "SCORE")
 	private float score;
 	
 	public static enum Status_enum {

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <div th:replace="fragments/general.html :: header"></div>
+
+    <h1>Registreer je als klant</h1>
+    <div>
+        <form th:object="${newKlant}" th:action="@{/register_klant_submit}" method="post">
+            <table>
+				<tr>
+					<td><input type="text" id="username" name="username" th:field="*{username}"></td>
+					<td><input type="text" id="password" name="password" th:field="*{password}"></td>
+				</tr>
+			</table>
+        </form>
+    </div>
+</html>

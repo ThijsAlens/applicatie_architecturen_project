@@ -14,12 +14,16 @@ import klusjes_v2.model.Klant;
 import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.services.MainServiceImpl;
+import klusjes_v2.services.PeopleServiceImpl;
 
 @Controller
 public class MainController {
 	
 	@Autowired
 	private MainServiceImpl mainService;
+	
+	@Autowired
+	private PeopleServiceImpl peopleService;
 	
 	@GetMapping("/")
 	public String index() {
@@ -47,7 +51,7 @@ public class MainController {
 	}
 	@PostMapping("/login_to_index")
 	public String login_to_index(Model mod, HttpSession ses, HttpServletRequest req) {
-		ArrayList<People> people = mainService.findAllPeople();
+		ArrayList<People> people = peopleService.findAllPeople();
         if (people != null) {
             Boolean found = false;
             for(int i=0; i<people.size(); i++) {
@@ -65,9 +69,9 @@ public class MainController {
 
 	}
 	
-	@GetMapping("/register")
+	@GetMapping("/register_type")
 	public String register() {
-		return "register";
+		return "register_type";
 	}
 	
 	@GetMapping("/profile")
