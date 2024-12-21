@@ -4,35 +4,58 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "AA_people")
-public abstract class People {
-	@Id
-	@Column(name = "USERNAME")
-	private String username;
-	
-	@Column(name = "PASSWORD")
-	private String password;
-	
-	@Column(name = "FUNCTION")
-	private FunctieEnum functie;
+@Table(name = "people")
+public class People {
 
-	public String getUsername() {
-		return username;
-	}
+    @Id
+    @NotBlank
+    @Column(name = "USERNAME")
+    private String username;
+    
+    @NotBlank
+    @Column(name = "PASSWORD")
+    private String password;
+    
+    @Column(name = "VOORNAAM")
+    private String voornaam;
+    
+    @Column(name = "ACHTERNAAM")
+    private String achternaam;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
+    
+    
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getVoornaam() {
+        return voornaam;
+    }
+
+    public void setVoornaam(String voornaam) {
+        this.voornaam = voornaam;
+    }
+
+    public String getAchternaam() {
+        return achternaam;
+    }
+
+    public void setAchternaam(String achternaam) {
+        this.achternaam = achternaam;
+    }
 }

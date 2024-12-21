@@ -1,0 +1,15 @@
+sudo systemctl status mysql
+
+#optional: sudo mysql_secure_installation
+
+
+sudo mysql -u root -p
+
+create user 'e400'@'localhost' identified by 'e400E400!';
+
+GRANT ALL PRIVILEGES ON testdb.* TO 'e400'@'localhost';
+
+create database testdb;
+
+use testdb;
+
