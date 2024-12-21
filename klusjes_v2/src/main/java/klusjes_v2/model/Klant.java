@@ -1,7 +1,10 @@
 package klusjes_v2.model;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -13,15 +16,15 @@ import jakarta.validation.constraints.NotBlank;
 public class Klant {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank
     @Column(name = "KLANT_ID")
     private Integer klantId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "people", referencedColumnName = "USERNAME")
-    private People people;
+    @OneToOne
+    @JoinColumn(name = "PEOPLE_ID", referencedColumnName = "USERNAME")
+    private People people;  
 
-    
     public Integer getKlantId() {
         return klantId;
     }
@@ -37,5 +40,4 @@ public class Klant {
     public void setPeople(People people) {
         this.people = people;
     }
-    
 }
