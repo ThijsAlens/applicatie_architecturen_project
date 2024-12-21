@@ -25,12 +25,11 @@ public class People {
     @Column(name = "ACHTERNAAM")
     private String achternaam;
 
+    
     public String getUsername() {
         return username;
     }
     
-    
-
     public void setUsername(String username) {
         this.username = username;
     }

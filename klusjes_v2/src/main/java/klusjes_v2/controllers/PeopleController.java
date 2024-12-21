@@ -52,7 +52,18 @@ public class PeopleController {
 	
 	@PostMapping("change_klusje_submit")
 	public String change_klusje_submit(HttpServletRequest req, HttpSession ses) {
-		// name of action is normally formatted as follows: "BIND_KLUSJESMAN__klusjeID='id of klusje that needs to be changed'__klusjesmanUsername='username of klusjesman that gets it'"
+		String key = (String) req.getAttribute("action");
+		
+		// check if it is a rating change
+		String regex0 = "rating__(.*?)__";
+		Pattern pattern0 = Pattern.compile(regex0);
+        Matcher matcher0 = pattern0.matcher(key);
+        float rating = -1;
+        if (matcher0.find()) {
+        	rating = Float.parseFloat(matcher0.group(1));
+        }
+        
+		// name of action is normally formatted as follows: "klusjeID='id of klusje that needs to be changed'__klusjesmanUsername='username of klusjesman that gets it'"
 		ArrayList<Klusje> klusjes = mainService.getAllKlusjes();
 		String key = (String) req.getAttribute("action");
 		String regex1 = "klusjeID=(.*?)__";

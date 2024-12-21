@@ -21,6 +21,7 @@ public class Klant {
     @JoinColumn(name = "people", referencedColumnName = "USERNAME")
     private People people;
 
+    
     public Integer getKlantId() {
         return klantId;
     }
