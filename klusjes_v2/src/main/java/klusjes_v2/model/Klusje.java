@@ -35,14 +35,6 @@ public class Klusje {
 	@Column(name = "SCORE")
 	private float score;
 	
-	public static enum Status_enum {
-        BESCHIKBAAR,
-        GEBODEN,
-        TOEGEWEZEN,
-        UITGEVOERD,
-        BEOORDEELD
-    }
-	
 //*========================================================================*//
 	
 	public Klusje() {
@@ -73,14 +65,6 @@ public class Klusje {
 
 	public void setKlant(Klant klant) {
 		this.klant = klant;
-	}
-
-	public Status_enum getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status_enum status) {
-		this.status = status;
 	}
 
 	public String getBeschrijving() {

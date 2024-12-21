@@ -12,6 +12,12 @@
 			<input type="submit" value="Voeg klusje toe">
 		</form>
     </div>
+	<div>
+		<h1>Openstaande klusjes</h1>
+		<form action="/change_klusje_submit" method="post">
+			<span th:text="${klusje_in_HTML}"></span>
+		</form>
+	</div>
 	
 	<p th:text=${session.name}>niets</p>
     <div th:replace="fragments/general.html :: footer"></div>

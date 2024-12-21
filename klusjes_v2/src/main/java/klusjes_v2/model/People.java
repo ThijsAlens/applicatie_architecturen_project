@@ -14,6 +14,9 @@ public abstract class People {
 	
 	@Column(name = "PASSWORD")
 	private String password;
+	
+	@Column(name = "FUNCTION")
+	private FunctieEnum functie;
 
 	public String getUsername() {
 		return username;
