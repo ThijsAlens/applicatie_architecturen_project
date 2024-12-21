@@ -18,7 +18,7 @@ public class Klusje {
 	private Klant klant;
 	
 	@Column(name = "STATUS")
-	private Status_enum status;
+	private StatusEnum status;
 	
 	@Column(name = "BESCHRIJVING")
 	private String beschrijving;
@@ -43,7 +43,7 @@ public class Klusje {
 	public Klusje(int id, Klant klant, String beschrijving, double prijs) {
 		this.id = id;
 		this.klant = klant;
-		this.status = Status_enum.BESCHIKBAAR;
+		this.status = StatusEnum.BESCHIKBAAR;
 		this.beschrijving = beschrijving;
 		this.prijs = prijs;
 		this.gebodenKlusjesmannen = new ArrayList<Klusjesman>();
@@ -61,6 +61,14 @@ public class Klusje {
 
 	public Klant getKlant() {
 		return klant;
+	}
+
+	public StatusEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusEnum status) {
+		this.status = status;
 	}
 
 	public void setKlant(Klant klant) {

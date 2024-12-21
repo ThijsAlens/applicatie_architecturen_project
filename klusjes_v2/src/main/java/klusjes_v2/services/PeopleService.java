@@ -6,4 +6,5 @@ import klusjes_v2.model.People;
 
 public interface PeopleService {
 	public ArrayList<People> findAllPeople();
+	public People getPeopleById(String id);
 }

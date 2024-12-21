@@ -17,4 +17,8 @@ public class PeopleServiceImpl implements PeopleService {
 	public ArrayList<People> findAllPeople() {
 		return (ArrayList<People>) this.repo.findAll();
 	}
+	
+	public People getPeopleById(String id) {
+		return this.repo.getById(id);
+	}
 }

@@ -19,4 +19,13 @@ public class MainServiceImpl implements MainService{
 	public ArrayList<Klusje> getAllKlusjes() {
 		return (ArrayList<Klusje>) repo.findAll();
 	}
+	
+	public Klusje getKlusjeById(int id) {
+		return (Klusje)repo.getById(id);
+	}
+	
+	public void updateKlusjeById(Klusje k) {
+		repo.deleteById(k.getId());
+		repo.saveAndFlush(k);
+	}
 }

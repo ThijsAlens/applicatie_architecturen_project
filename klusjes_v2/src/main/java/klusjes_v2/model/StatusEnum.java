@@ -1,6 +1,6 @@
 package klusjes_v2.model;
 
-public enum Status_enum {
+public enum StatusEnum {
     BESCHIKBAAR,
     GEBODEN,
     TOEGEWEZEN,
