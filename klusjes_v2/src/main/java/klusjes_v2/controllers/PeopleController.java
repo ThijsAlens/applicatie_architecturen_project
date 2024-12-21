@@ -54,44 +54,72 @@ public class PeopleController {
 	public String change_klusje_submit(HttpServletRequest req, HttpSession ses) {
 		String key = (String) req.getAttribute("action");
 		
-		// check if it is a rating change
-		String regex0 = "rating__(.*?)__";
-		Pattern pattern0 = Pattern.compile(regex0);
-        Matcher matcher0 = pattern0.matcher(key);
-        float rating = -1;
-        if (matcher0.find()) {
-        	rating = Float.parseFloat(matcher0.group(1));
+		// select the first keyword (type of request)
+        Pattern pattern = Pattern.compile("^(.*?)__");
+        Matcher matcher = pattern.matcher(key);
+        String type = "";
+        if (matcher.find()) {
+        	type = matcher.group(1);
         }
         
-		// name of action is normally formatted as follows: "klusjeID='id of klusje that needs to be changed'__klusjesmanUsername='username of klusjesman that gets it'"
-		ArrayList<Klusje> klusjes = mainService.getAllKlusjes();
-		String key = (String) req.getAttribute("action");
-		String regex1 = "klusjeID=(.*?)__";
-		Pattern pattern1 = Pattern.compile(regex1);
-        Matcher matcher1 = pattern1.matcher(key);
-        int klusjesID = -1;
-        if (matcher1.find()) {
-        	klusjesID = Integer.parseInt(matcher1.group(1));
-        }
-        String regex2 = "klusjesmanUsername=(.*?)__";
-		Pattern pattern2 = Pattern.compile(regex2);
-        Matcher matcher2 = pattern2.matcher(key);
-        String klusjesmanUsername = "";
-        if (matcher2.find()) {
-            klusjesmanUsername = matcher2.group(1);
+        switch (type) {
+        case "TOEWIJZEN":
+        	// user wants to give a klusje to a klusjesman
+        	// read the klusjesID and klusjesmanUsername from the key
+    		Pattern pattern1 = Pattern.compile("klusjeID=(.*?)__");
+            Matcher matcher1 = pattern1.matcher(key);
+            int klusjesID = -1;
+            if (matcher1.find()) {
+            	klusjesID = Integer.parseInt(matcher1.group(1));
+            }
+    		Pattern pattern2 = Pattern.compile("klusjesmanUsername=(.*?)__");
+            Matcher matcher2 = pattern2.matcher(key);
+            String klusjesmanUsername = "";
+            if (matcher2.find()) {
+                klusjesmanUsername = matcher2.group(1);
+            }
+            
+            // try to addapt the database
+            try {
+    			Klusje klusje = mainService.getKlusjeById(klusjesID);
+    			Klusjesman klusjesman = (Klusjesman) peopleService.getPeopleById(klusjesmanUsername);
+    			klusje.setStatus(StatusEnum.TOEGEWEZEN);
+    			klusje.setToegewezenKlusjesman(klusjesman);
+    			klusje.setGebodenKlusjesmannen(null);
+    			mainService.updateKlusjeById(klusje);
+    		} catch (Exception e) {
+    			System.out.println("In \"PeopleController.change_klusjesubmit\"Iets is misgegaan bij het toewijzen van een klusje\nGeselecteerde klusjesID = \"" + klusjesID + "\" en klusjesmanUsername = \"" + klusjesmanUsername + "\"");
+    			e.printStackTrace();
+    		}
+            break;
+            
+        case "RATING":
+        	// user wants to input a rating for the klusjesman
+        	// read the klusjesmanUsername from the key
+        	Pattern pattern3 = Pattern.compile("klusjeID=(.*?)__");
+            Matcher matcher3 = pattern3.matcher(key);
+            int klusjeID3 = -1;
+            if (matcher3.find()) {
+            	klusjeID3 = Integer.parseInt(matcher3.group(1));
+            }
+            Pattern pattern4 = Pattern.compile("rating=(.*?)__");
+            Matcher matcher4 = pattern4.matcher(key);
+            float rating = -1;
+            if (matcher4.find()) {
+            	rating = Float.parseFloat(matcher4.group(1));
+            }
+            
+            // try to addapt the database
+            try {
+    			Klusje klusje= mainService.getKlusjeById(klusjeID3);
+    			klusje.setRating(rating);
+    			mainService.updateKlusjeById(klusje);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+            break;
         }
         
-        try {
-			Klusje klusje = mainService.getKlusjeById(klusjesID);
-			Klusjesman klusjesman = (Klusjesman) peopleService.getPeopleById(klusjesmanUsername);
-			klusje.setStatus(StatusEnum.TOEGEWEZEN);
-			klusje.setToegewezenKlusjesman(klusjesman);
-			klusje.setGebodenKlusjesmannen(null);
-			mainService.updateKlusjeById(klusje);
-		} catch (Exception e) {
-			System.out.println("In \"PeopleController.change_klusjesubmit\"Iets is misgegaan bij het toewijzen van een klusje\nGeselecteerde klusjesID = \"" + klusjesID + "\" en klusjesmanUsername = \"" + klusjesmanUsername + "\"");
-			e.printStackTrace();
-		}
         return "forward:/klant/index";
 	}
 }

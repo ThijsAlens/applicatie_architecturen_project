@@ -73,6 +73,7 @@ public class MainController {
 				if (klusjes.get(i).getStatus() == StatusEnum.UITGEVOERD) {
 					html = html + "<p>Dit klusje is af. Je kan de klusjesman een rating geven:</p>";
 					html = html + "<input type=\"text\" id=\"rating\" name=\"rating\" placeholder=\"Rating\">";
+					String key = "RATING__klusjesmanUsername=" + klusjes.get(i).getToegewezenKlusjesman().getUsername() + "__rating=" + ;
 					html = html + "<button type=\"submit\" name=\"action\" value=\"rating__" + klusjes.get(i).getToegewezenKlusjesman().getUsername() + "\">Save</button>";
 				}
 			}
