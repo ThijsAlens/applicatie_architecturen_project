@@ -12,7 +12,7 @@ import klusjes_v2.repositories.KlusjesRepository;
 import klusjes_v2.repositories.PeopleRepository;
 
 @Service
-public class MainServiceImpl implements MainService{
+public class KlusServiceImpl implements KlusService{
 
 	@Autowired
 	private KlusjesRepository repo;
@@ -25,8 +25,12 @@ public class MainServiceImpl implements MainService{
 		return (Klus)repo.getById(id);
 	}
 	
-	public void updateKlusjeById(Klus k) {
+	public void updateKlusje(Klus k) {
 		repo.deleteById(k.getId());
 		repo.saveAndFlush(k);
+	}
+	
+	public void addKlus(Klus k) {
+		this.repo.save(k);
 	}
 }

@@ -6,8 +6,9 @@ import klusjes_v2.model.Klus;
 
 
 
-public interface MainService {
+public interface KlusService {
 	public ArrayList<Klus> getAllKlusjes();
 	public Klus getKlusjeById(int id);
-	public void updateKlusjeById(Klus k);
+	public void updateKlusje(Klus k);
+	public void addKlus(Klus k);
 }
