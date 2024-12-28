@@ -18,18 +18,18 @@ public class Klusjesman {
     @NotBlank
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KLUSJESMAN_ID")
-    private Integer klantId;
+    private Integer klusjesmanId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "people", referencedColumnName = "USERNAME")
     private People people;
 
-	public Integer getKlantId() {
-        return klantId;
+	public Integer getKlusjesmanId() {
+        return klusjesmanId;
     }
 
-    public void setKlantId(Integer klantId) {
-        this.klantId = klantId;
+    public void setKlusjesmanId(Integer klusjesmanId) {
+        this.klusjesmanId = klusjesmanId;
     }
 
     public People getPeople() {
@@ -40,9 +40,9 @@ public class Klusjesman {
         this.people = people;
     }
 
-	public Klusjesman(@NotBlank Integer klantId, People people) {
+	public Klusjesman(@NotBlank Integer klusjesmanId, People people) {
 		super();
-		this.klantId = klantId;
+		this.klusjesmanId = klusjesmanId;
 		this.people = people;
 	}
 
