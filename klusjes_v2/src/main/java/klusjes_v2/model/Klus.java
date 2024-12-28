@@ -114,15 +114,14 @@ public class Klus {
         this.rating = rating;
     }
 
-	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving,
-			@NotNull StatusEnum status) {
+	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving) {
 		super();
 		this.klusId = klusId;
 		this.name = name;
 		this.klant = klant;
 		this.prijs = prijs;
 		this.beschrijving = beschrijving;
-		this.status = status;
+		this.status = StatusEnum.BESCHIKBAAR;
 	}
 
 	public Klus(String name, Klant klant, Integer prijs, String beschrijving) {
@@ -131,6 +130,7 @@ public class Klus {
 		this.klant = klant;
 		this.prijs = prijs;
 		this.beschrijving = beschrijving;
+		this.status = StatusEnum.BESCHIKBAAR;
 	}
 
 	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving,
@@ -141,7 +141,7 @@ public class Klus {
 		this.klant = klant;
 		this.prijs = prijs;
 		this.beschrijving = beschrijving;
-		this.status = status;
+		this.status=StatusEnum.BESCHIKBAAR;
 		this.klusjesman = klusjesman;
 		this.rating = rating;
 	}
