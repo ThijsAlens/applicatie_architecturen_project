@@ -50,4 +50,12 @@ public class Klant {
     	// return username
     	return "";
     }
+
+	public Klant(People people) {
+		super();
+		this.people = people;
+	}
+
+    
+    
 }

@@ -72,6 +72,10 @@ public class People {
 		this.voornaam = voornaam;
 		this.achternaam = achternaam;
 	}
+
+	public People() {
+		super();
+	}
     
     
     

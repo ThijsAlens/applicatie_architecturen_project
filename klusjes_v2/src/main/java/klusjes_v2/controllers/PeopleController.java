@@ -46,7 +46,7 @@ public class PeopleController {
 	
 	@GetMapping("/register_klusjesman")
 	public String register_klusjesman(Model m) {
-		m.addAttribute("newKlusjesman", new Klusjesman());
+		m.addAttribute("newKlusjesman", new Klusjesman();
 		return "register_klusjesman";
 	}
 	
