@@ -46,13 +46,13 @@ public class PeopleController {
 	
 	@GetMapping("/register_klusjesman")
 	public String register_klusjesman(Model m) {
-		m.addAttribute("newKlusjesman", new Klusjesman());
+		m.addAttribute("newKlusjesman", new Klusjesman(new People()));
 		return "register_klusjesman";
 	}
 	
 	@GetMapping("/register_klant")
 	public String register_klant(Model m) {
-		m.addAttribute("newKlant", new Klant());
+		m.addAttribute("newKlant", new Klant(new People()));
 		return "register_klant";
 	}
 	
@@ -118,7 +118,7 @@ public class PeopleController {
 	
 	@PostMapping("/nieuw_klusje")
 	public String nieuw_klusje(HttpServletRequest req, HttpSession ses) {
-		Klus k = new Klus(req.getAttribute("beschrijving"), req.getAttribute("prijs"));
+		Klus k = new Klus(req.getAttribute("name").toString(), peopleService.getKlantById(ses.getAttribute("username").toString()), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString());
 		mainService.addKlus(k);
 	}
 	
@@ -156,7 +156,7 @@ public class PeopleController {
     			Klus klusje = mainService.getKlusjeById(klusjesID);
     			Klusjesman klusjesman = (Klusjesman) peopleService.getKlusjesmanById(klusjesmanUsername);
     			klusje.setStatus(StatusEnum.TOEGEWEZEN);
-    			klusje.setToegewezenKlusjesman(klusjesman);
+    			klusje.setKlusjesman(klusjesman)
     			klusje.setGebodenKlusjesmannen(null);
     			mainService.updateKlusjeById(klusje);
     		} catch (Exception e) {

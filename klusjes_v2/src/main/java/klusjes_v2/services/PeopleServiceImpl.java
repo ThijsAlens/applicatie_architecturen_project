@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import klusjes_v2.model.Klant;
 import klusjes_v2.model.Klus;
 import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
@@ -26,5 +27,9 @@ public class PeopleServiceImpl implements PeopleService {
 	
 	public Klusjesman getKlusjesmanById(String id) {
 		return new Klusjesman(this.repo.getById(id));
+	}
+	
+	public Klant getKlantById(String id) {
+		return new Klant(this.repo.getById(id));
 	}
 }
