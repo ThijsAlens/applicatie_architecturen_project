@@ -42,10 +42,12 @@ public class Klant {
     }
 
 	public Klant(@NotBlank Integer klantId, People people) {
-		super();
 		this.klantId = klantId;
 		this.people = people;
 	}
-
     
+    public String getUsername() {
+    	// return username
+    	return "";
+    }
 }

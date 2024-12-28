@@ -51,6 +51,9 @@ public class Klusjesman {
 		this.people = people;
 	}
     
-    
+    public float getRating() {
+    	//TODO
+    	return -1;
+    }
     
 }

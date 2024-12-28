@@ -71,7 +71,7 @@ public class PeopleController {
 		
 		//select all klusjes that are created by klant
 		for (int i=0; i<klusjes.size(); i++) {
-			if (klusjes.get(i).getKlant().getUsername() != ses.getAttribute("username")) {
+			if (klusjes.get(i).getKlant().getPeople().getUsername() != ses.getAttribute("username")) {
 				klusjes.remove(i);
 			}
 		}
@@ -81,7 +81,7 @@ public class PeopleController {
 		} else {
 			html = html + "<p>U heeft volgende klusjes gemaakt</p>";
 			for (int i=0; i<klusjes.size(); i++) {
-				html = html + "<p>Klusje met ID" + Integer.toString(klusjes.get(i).getId()) + ":\t";
+				html = html + "<p>Klusje met ID" + Integer.toString(klusjes.get(i).getKlusId()) + ":\t";
 				html = html + klusjes.get(i).getBeschrijving() + " voor " + Double.toString(klusjes.get(i).getPrijs()) + "</p>";
 				
 				switch (klusjes.get(i).getStatus()) {
@@ -93,21 +93,21 @@ public class PeopleController {
 					// er zijn klusjesmannen die het klusje willen doen, laat de klant deze toewijzen
 					ArrayList<Klusjesman>gebondenKlusjesmannen = klusjes.get(i).getGebodenKlusjesmannen();
 					for (int klusjesmanIndex=0; klusjesmanIndex<gebondenKlusjesmannen.size(); klusjesmanIndex++) {
-						html = html + "<p> klusjesman met naam " + gebondenKlusjesmannen.get(klusjesmanIndex).getUsername() + "en rating" + gebondenKlusjesmannen.get(klusjesmanIndex).getRating() + "wil graag je klusje doen, klik op de knop hiernaast om deze toe te wijzen</p>";
-						String key = "TOEWIJZEN__klusjeID=" + Integer.toString(klusjes.get(i).getId()) + "__klusjesmanUsername=" + gebondenKlusjesmannen.get(klusjesmanIndex).getUsername() + "__";
+						html = html + "<p> klusjesman met naam " + gebondenKlusjesmannen.get(klusjesmanIndex).getPeople().getUsername() + "en rating" + gebondenKlusjesmannen.get(klusjesmanIndex).getRating() + "wil graag je klusje doen, klik op de knop hiernaast om deze toe te wijzen</p>";
+						String key = "TOEWIJZEN__klusjeID=" + Integer.toString(klusjes.get(i).getKlusId()) + "__klusjesmanUsername=" + gebondenKlusjesmannen.get(klusjesmanIndex).getPeople().getUsername() + "__";
 						html = html + "<input type=\"submit\" name=\"action\" value=\"" + key + "\"wijs deze klusjesman toe>";
 					}
 					break;
 					
 				case TOEGEWEZEN:
-					html = html + "<p>Dit klusje wordt verwerkt door" + klusjes.get(i).getToegewezenKlusjesman().getUsername() + "</p>";
+					html = html + "<p>Dit klusje wordt verwerkt door" + klusjes.get(i).getKlusjesman().getPeople().getUsername() + "</p>";
 					break;
 				
 				case UITGEVOERD:
 					html = html + "<p>Dit klusje is af. Je kan de klusjesman een rating geven:</p>";
 					html = html + "<input type=\"text\" id=\"rating\" name=\"rating\" placeholder=\"Rating\">";
-					String key = "RATING__klusjesmanUsername=" + klusjes.get(i).getToegewezenKlusjesman().getUsername();
-					html = html + "<button type=\"submit\" name=\"action\" value=\"rating__" + klusjes.get(i).getToegewezenKlusjesman().getUsername() + "\">Save</button>";
+					String key = "RATING__klusjesmanUsername=" + klusjes.get(i).getKlusjesman().getPeople().getUsername();
+					html = html + "<button type=\"submit\" name=\"action\" value=\"rating__" + klusjes.get(i).getKlusjesman().getPeople().getUsername() + "\">Save</button>";
 					break;
 				}
 			}
@@ -153,8 +153,8 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-    			Klusje klusje = mainService.getKlusjeById(klusjesID);
-    			Klusjesman klusjesman = (Klusjesman) peopleService.getPeopleById(klusjesmanUsername);
+    			Klus klusje = mainService.getKlusjeById(klusjesID);
+    			Klusjesman klusjesman = (Klusjesman) peopleService.getKlusjesmanById(klusjesmanUsername);
     			klusje.setStatus(StatusEnum.TOEGEWEZEN);
     			klusje.setToegewezenKlusjesman(klusjesman);
     			klusje.setGebodenKlusjesmannen(null);

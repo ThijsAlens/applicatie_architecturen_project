@@ -22,4 +22,8 @@ public class PeopleServiceImpl implements PeopleService {
 	public People getPeopleById(String id) {
 		return this.repo.getById(id);
 	}
+	
+	public Klusjesman getKlusjesmanById(String id) {
+		return new Klusjesman(this.repo.getById(id));
+	}
 }
