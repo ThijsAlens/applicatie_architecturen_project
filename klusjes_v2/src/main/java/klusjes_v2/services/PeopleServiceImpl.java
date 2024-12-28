@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import klusjes_v2.model.Klus;
+import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.repositories.PeopleRepository;
 
