@@ -11,4 +11,5 @@ public interface KlusService {
 	public Klus getKlusjeById(int id);
 	public void updateKlusje(Klus k);
 	public void addKlus(Klus k);
+	public void deleteBiedingenByKlusId(int id);
 }

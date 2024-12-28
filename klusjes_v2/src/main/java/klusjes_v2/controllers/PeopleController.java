@@ -28,7 +28,7 @@ public class PeopleController {
 	private PeopleServiceImpl peopleService;
 	
 	@Autowired
-	private KlusService mainService;
+	private KlusService klusService;
 	
 	/*
 	 * ===========================================================================================================
@@ -37,6 +37,7 @@ public class PeopleController {
 	*/
 	@PostMapping("/register_type_submit")
 	public String register_type_submit(HttpServletRequest req) {
+		System.out.println("req=" + req.getAttribute("isKlusjesman"));
 		if (req.getAttribute("isKlusjesman") == "Yes") {
 			return "forward:register_klusjesman";
 		} else {
@@ -67,7 +68,7 @@ public class PeopleController {
 	@GetMapping("/klant/index")
 	public String klantIndex(HttpSession ses) {
 		String html = "";
-		ArrayList<Klus> klusjes = mainService.getAllKlusjes();
+		ArrayList<Klus> klusjes = klusService.getAllKlusjes();
 		
 		//select all klusjes that are created by klant
 		for (int i=0; i<klusjes.size(); i++) {
@@ -119,7 +120,8 @@ public class PeopleController {
 	@PostMapping("/nieuw_klusje")
 	public String nieuw_klusje(HttpServletRequest req, HttpSession ses) {
 		Klus k = new Klus(req.getAttribute("name").toString(), peopleService.getKlantById(ses.getAttribute("username").toString()), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString());
-		mainService.addKlus(k);
+		klusService.addKlus(k);
+		return "forward:/klant/index";
 	}
 	
 	@PostMapping("/change_klusje_submit")
@@ -153,12 +155,12 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-    			Klus klusje = mainService.getKlusjeById(klusjesID);
+    			Klus klusje = klusService.getKlusjeById(klusjesID);
     			Klusjesman klusjesman = (Klusjesman) peopleService.getKlusjesmanById(klusjesmanUsername);
     			klusje.setStatus(StatusEnum.TOEGEWEZEN);
-    			klusje.setKlusjesman(klusjesman)
-    			klusje.setGebodenKlusjesmannen(null);
-    			mainService.updateKlusjeById(klusje);
+    			klusje.setKlusjesman(klusjesman);
+    			klusService.deleteBiedingenByKlusId(klusje.getKlusId());
+    			klusService.updateKlusje(klusje);
     		} catch (Exception e) {
     			System.out.println("In \"PeopleController.change_klusjesubmit\"Iets is misgegaan bij het toewijzen van een klusje\nGeselecteerde klusjesID = \"" + klusjesID + "\" en klusjesmanUsername = \"" + klusjesmanUsername + "\"");
     			e.printStackTrace();
@@ -174,13 +176,13 @@ public class PeopleController {
             if (matcher3.find()) {
             	klusjeID3 = Integer.parseInt(matcher3.group(1));
             }
-            float rating = (float) req.getAttribute("rating");
+            int rating = (int) req.getAttribute("rating");
             
             // try to addapt the database
             try {
-    			Klusje klusje= mainService.getKlusjeById(klusjeID3);
+    			Klus klusje= klusService.getKlusjeById(klusjeID3);
     			klusje.setRating(rating);
-    			mainService.updateKlusje(klusje);
+    			klusService.updateKlusje(klusje);
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
@@ -201,12 +203,12 @@ public class PeopleController {
 	@GetMapping("/klusjesman/index")
 	public String klusjesmanIndex(HttpSession ses) {
 		String html = "";
-		Klusjesman klusjesman = peopleService.getPeopleById(ses.getAttribute("username"));
-		ArrayList<Klus> klusjes = mainService.getAllKlusjes();
+		Klusjesman klusjesman = peopleService.getKlusjesmanById(ses.getAttribute("username").toString());
+		ArrayList<Klus> klusjes = klusService.getAllKlusjes();
 		
 		//select all klusjes that are created by klusjesman
 		for (int i=0; i<klusjes.size(); i++) {
-			if (klusjes.get(i).getKlusjesman().getUsername() != ses.getAttribute("username") && klusjes.get(i).getStatus() != StatusEnum.TOEGEWEZEN) {
+			if (klusjes.get(i).getKlusjesman().getKlantId() != ses.getAttribute("username") && klusjes.get(i).getStatus() != StatusEnum.TOEGEWEZEN) {
 				klusjes.remove(i);
 			}
 		}
@@ -223,7 +225,7 @@ public class PeopleController {
 		}
 		
 		html = html + "<h2>Op volgende klusjes kan je nog bieden</h2>";
-		klusjes = mainService.getAllKlusjes();
+		klusjes = klusService.getAllKlusjes();
 		
 		// select all klusjes that are to be toegewezen
 		for (int i=0; i<klusjes.size(); i++) {
@@ -238,15 +240,15 @@ public class PeopleController {
 		for (int i=0; i<klusjes.size(); i++) {
 			ArrayList<Klusjesman> klusjesmannen = klusjes.get(i).getGebodenKlusjesmannen();
 			for (int j=0; j<klusjesmannen.size(); j++) {
-				if (klusjesmannen.get(i).getUsername() == ses.getAttribute("username")) {
-					html = html + "<p>U bood reeds op klusje met ID" + Integer.toString(klusjes.get(i).getId()) + ":\t";
+				if (klusjesmannen.get(i).getKlantId() == ses.getAttribute("username")) {
+					html = html + "<p>U bood reeds op klusje met ID" + Integer.toString(klusjes.get(i).getKlusId()) + ":\t";
 					html = html + klusjes.get(i).getBeschrijving() + " voor " + Double.toString(klusjes.get(i).getPrijs()) + "</p>";
-					String key = "BIEDEN_INTREKKEN__klusjesmanID=" + Integer.toString(klusjesman.getId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
+					String key = "BIEDEN_INTREKKEN__klusjesmanID=" + Integer.toString(klusjesman.getKlantId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
 					html = html + "<input type=\"submit\" name=\"action\" value=\"" + key + "\"trek uw bieding in>";
 				} else {
-					html = html + "<p>Klusje met ID" + Integer.toString(klusjes.get(i).getId()) + ":\t";
+					html = html + "<p>Klusje met ID" + Integer.toString(klusjes.get(i).getKlusId()) + ":\t";
 					html = html + klusjes.get(i).getBeschrijving() + " voor " + Double.toString(klusjes.get(i).getPrijs()) + "</p>";
-					String key = "BIEDEN_TOEVOEGEN__klusjesmanID=" + Integer.toString(klusjesman.getId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
+					String key = "BIEDEN_TOEVOEGEN__klusjesmanID=" + Integer.toString(klusjesman.getKlantId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
 					html = html + "<input type=\"submit\" name=\"action\" value=\"" + key + "\"biedt op dit klusje>";
 				}
 			}
@@ -281,9 +283,9 @@ public class PeopleController {
             
             // try to addapt the database
     		try {
-    			Klus k = mainService.getKlusjeById(klusjesID);
+    			Klus k = klusService.getKlusjeById(klusjesID);
     			k.setStatus(StatusEnum.UITGEVOERD);
-    			mainService.updateKlusje(k);
+    			klusService.updateKlusje(k);
     		} catch (Exception e) {
             	e.printStackTrace();
             }
@@ -307,15 +309,15 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-            	Klus k = mainService.getKlusjeById(klusjesID2);
-            	ArrayList<Klusjesman> km = k.getToegewezenKlusjesman();
+            	Klus k = klusService.getKlusjeById(klusjesID2);
+            	ArrayList<Klusjesman> km = k.getGebodenKlusjesmannen();
             	for (int i=0; i<km.size(); i++) {
-            		if (km.get(i).getUsername() == klusjesmanUsername3) {
+            		if (km.get(i).getPeople().getUsername() == klusjesmanUsername3) {
             			km.remove(i);
             		}
             	}
-            	k.setToegewezenKlusjesman(km);
-            	mainService.updateKlusje(k);
+            	k.setGebodenKlusjesmannen(km);
+            	klusService.updateKlusje(k);
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -339,9 +341,9 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-            	Klus k = mainService.getKlusjeById(klusjesID2);
-            	k.setToegewezenKlusjesman(k.getToegewezenKlusjesman().add(peopleService.getPeopleById(klusjesmanUsername5)));
-            	mainService.updateKlusje(k);
+            	Klus k = klusService.getKlusjeById(klusjesID2);
+            	k.setToegewezenKlusjesman(k.getToegewezenKlusjesman().add(peopleService.getKlusjesmanById(klusjesmanUsername5)));
+            	klusService.updateKlusje(k);
             } catch (Exception e) {
             	e.printStackTrace();
             }

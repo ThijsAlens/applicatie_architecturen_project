@@ -33,4 +33,8 @@ public class KlusServiceImpl implements KlusService{
 	public void addKlus(Klus k) {
 		this.repo.save(k);
 	}
+	
+	public void deleteBiedingenByKlusId(int id) {
+		//TODO
+	}
 }
