@@ -113,5 +113,40 @@ public class Klus {
     public void setRating(Integer rating) {
         this.rating = rating;
     }
+
+	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving,
+			@NotNull StatusEnum status) {
+		super();
+		this.klusId = klusId;
+		this.name = name;
+		this.klant = klant;
+		this.prijs = prijs;
+		this.beschrijving = beschrijving;
+		this.status = status;
+	}
+
+	public Klus(String name, Klant klant, Integer prijs, String beschrijving) {
+		super();
+		this.name = name;
+		this.klant = klant;
+		this.prijs = prijs;
+		this.beschrijving = beschrijving;
+	}
+
+	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving,
+			@NotNull StatusEnum status, Klusjesman klusjesman, Integer rating) {
+		super();
+		this.klusId = klusId;
+		this.name = name;
+		this.klant = klant;
+		this.prijs = prijs;
+		this.beschrijving = beschrijving;
+		this.status = status;
+		this.klusjesman = klusjesman;
+		this.rating = rating;
+	}
+    
+    
+    
     
 }

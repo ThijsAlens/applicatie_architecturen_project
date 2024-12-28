@@ -64,4 +64,16 @@ public class People {
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
     }
+
+	public People(@NotBlank String username, @NotBlank String password, String voornaam, String achternaam) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.voornaam = voornaam;
+		this.achternaam = achternaam;
+	}
+    
+    
+    
+    
 }

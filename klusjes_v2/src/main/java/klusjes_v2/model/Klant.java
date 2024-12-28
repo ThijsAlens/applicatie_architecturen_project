@@ -40,4 +40,12 @@ public class Klant {
     public void setPeople(People people) {
         this.people = people;
     }
+
+	public Klant(@NotBlank Integer klantId, People people) {
+		super();
+		this.klantId = klantId;
+		this.people = people;
+	}
+
+    
 }

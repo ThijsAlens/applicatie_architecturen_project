@@ -25,11 +25,24 @@ public class Biedingen {
     private int id;  
 
     @ManyToOne
-    @JoinColumn(name = "KLUS_ID", referencedColumnName = "KLUS_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "KLUS_ID", referencedColumnName = "KLUS_ID")
     private Klus klus;  
 
     @ManyToOne
-    @JoinColumn(name = "KLUSJESMAN_ID", referencedColumnName = "KLUSJESMAN_ID", insertable = false, updatable = false)
-    private Klusjesman klusjesman;  
+    @JoinColumn(name = "KLUSJESMAN_ID", referencedColumnName = "KLUSJESMAN_ID")
+    private Klusjesman klusjesman;
+
+	public Biedingen(int id, Klus klus, Klusjesman klusjesman) {
+		super();
+		this.id = id;
+		this.klus = klus;
+		this.klusjesman = klusjesman;
+	}
+
+	public Biedingen(Klus klus, Klusjesman klusjesman) {
+		super();
+		this.klus = klus;
+		this.klusjesman = klusjesman;
+	}  
 
 }
