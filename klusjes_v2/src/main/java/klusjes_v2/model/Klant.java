@@ -56,6 +56,8 @@ public class Klant {
 		this.people = people;
 	}
 
+	
+	
     
     
 }
