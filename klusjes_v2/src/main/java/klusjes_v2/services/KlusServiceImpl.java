@@ -43,8 +43,12 @@ public class KlusServiceImpl implements KlusService{
 		return null;
 	}
 
-	@Override
 	public void setGebodenKlusjesmannenByKlusId(int klusId, ArrayList<Klusjesman> km) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void deleteKlusByKlusId(int klusId) {
 		// TODO Auto-generated method stub
 		
 	}

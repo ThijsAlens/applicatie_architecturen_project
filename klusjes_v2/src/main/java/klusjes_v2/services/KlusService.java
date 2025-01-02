@@ -15,4 +15,5 @@ public interface KlusService {
 	public void deleteBiedingenByKlusId(int id);
 	public ArrayList<Klusjesman> getGebodenKlusjesmannenByKlusId(int klusId);
 	public void setGebodenKlusjesmannenByKlusId(int klusId, ArrayList<Klusjesman> km);
+	public void deleteKlusByKlusId(int klusId);
 }

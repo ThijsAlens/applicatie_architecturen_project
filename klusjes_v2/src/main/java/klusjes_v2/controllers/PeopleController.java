@@ -71,7 +71,7 @@ public class PeopleController {
 		
 		//select all klusjes that are created by klant
 		for (int i=0; i<klusjes.size(); i++) {
-			if (klusjes.get(i).getKlant().getPeople().getUsername() != ses.getAttribute("username")) {
+			if (klusjes.get(i).getKlant().getUsername() != ses.getAttribute("username")) {
 				klusjes.remove(i);
 			}
 		}
