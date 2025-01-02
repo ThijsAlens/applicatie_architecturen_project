@@ -50,7 +50,12 @@ public class KlusServiceImpl implements KlusService{
 
 	public void deleteKlusByKlusId(int klusId) {
 		// TODO Auto-generated method stub
+	}
 		
+	 // New method to fetch a Klus by ID
+	 public Klus getKlusById(int klusId) {
+	        return repo.findById(klusId).orElse(null); // Return null if Klus not found
+	    
 	}
 
 }

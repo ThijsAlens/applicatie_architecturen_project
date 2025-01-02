@@ -45,7 +45,6 @@ public class SecurityModule {
             .usersByUsernameQuery("SELECT username, password FROM people WHERE username = ?")
             .passwordEncoder(NoOpPasswordEncoder.getInstance());  // No password encoder for plain text passwords
     }
-
 	
 
 }
