@@ -1,4 +1,6 @@
 package security;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +22,16 @@ public class SecurityModule {
 	return NoOpPasswordEncoder.getInstance();
 	}
 	
+	@Autowired
+	DataSource datasource;
+	
 	
 	@Bean
 	public SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
 	http
 	.authorizeHttpRequests(authorize -> authorize
-			.requestMatchers("/*").permitAll()
+			.requestMatchers("/login").permitAll()
+			.requestMatchers("/*").authenticated()
 	)
 	.formLogin( form -> form 
 			.loginPage("/login").permitAll())
@@ -33,6 +39,16 @@ public class SecurityModule {
 			.logoutSuccessUrl("/index"))
 			;
 	return http.build();
+	}
+	
+	@Autowired
+	public void dbauth(AuthenticationManagerBuilder auth) throws Exception {
+	auth
+	.jdbcAuthentication()
+	.dataSource(datasource)
+	.usersByUsernameQuery("select username,password,1 from people where username = ?")
+	.authoritiesByUsernameQuery("select 'user','role_user'");
+	;
 	}
 	
 
