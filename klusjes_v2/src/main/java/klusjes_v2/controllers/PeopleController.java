@@ -18,7 +18,9 @@ import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.model.StatusEnum;
 import klusjes_v2.services.KlantService;
+import klusjes_v2.services.KlantServiceImpl;
 import klusjes_v2.services.KlusService;
+import klusjes_v2.services.KlusServiceImpl;
 import klusjes_v2.services.PeopleServiceImpl;
 
 @Controller
@@ -28,7 +30,10 @@ public class PeopleController {
 	private PeopleServiceImpl peopleService;
 	
 	@Autowired
-	private KlusService klusService;
+	private KlusServiceImpl klusService;
+	
+	@Autowired
+	private KlantServiceImpl klantService;
 	
 	/*
 	 * ===========================================================================================================
@@ -124,7 +129,7 @@ public class PeopleController {
 	
 	@PostMapping("/nieuw_klusje")
 	public String nieuw_klusje(HttpServletRequest req, HttpSession ses) {
-		Klus k = new Klus(req.getAttribute("name").toString(), KlantService.getKlantByUsername(ses.getAttribute("username").toString()), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString());
+		Klus k = new Klus(req.getAttribute("name").toString(), klantService.getKlantByUsername(ses.getAttribute("username").toString()).get(), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString());
 		klusService.addKlus(k);
 		return "forward:/klant/index";
 	}
