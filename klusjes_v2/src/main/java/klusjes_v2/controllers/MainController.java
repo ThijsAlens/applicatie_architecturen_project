@@ -16,6 +16,7 @@ import klusjes_v2.model.Klus;
 import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.services.PeopleServiceImpl;
+import klusjes_v2.services.KlantService;
 import klusjes_v2.services.KlusServiceImpl;
 
 @Controller
@@ -26,6 +27,9 @@ public class MainController {
 	
 	@Autowired
 	private KlusServiceImpl klusService;
+	
+	@Autowired
+	private KlantService klantService;
 	
 	@GetMapping("/")
 	public String index(HttpSession ses) {
@@ -70,8 +74,12 @@ public class MainController {
 	}
 	
 	@GetMapping("/profile")
-	public String profile() {
-		return "index";
+	public String profile(HttpSession ses) {
+		if (ses.getAttribute("userType") == Klusjesman.class) {
+			;
+			ses.setAttribute("rating", rating);
+		}
+		return "profile";
 	}
 	
 	/*
@@ -127,7 +135,7 @@ public class MainController {
 	@PostMapping("/rest_stuff_add")
 	public String rest_stuff_add(HttpSession ses, HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		// send request to rest controller
+		rest.postForObject("http://localhost:8080/REST_addKlus", new Klus(req.getAttribute("name").toString(), klantService.getKlantByUsername(ses.getAttribute("username").toString()).get(), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString()), Klus.class);
 		ses.setAttribute("statusAddKlus", "REST NOG DOEN!!!!!");
 		return "forward:restAPI";
 	}
