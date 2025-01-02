@@ -49,9 +49,8 @@ public class KlusServiceImpl implements KlusService{
 		// TODO Auto-generated method stub
 	}
 		
-	 // New method to fetch a Klus by ID
 	 public Klus getKlusById(int klusId) {
-	        return repo.findById(klusId).orElse(null); // Return null if Klus not found
+	        return repo.findById(klusId).orElse(null);
 	    
 	}
 
