@@ -135,7 +135,7 @@ public class MainController {
 	@PostMapping("/rest_stuff_add")
 	public String rest_stuff_add(HttpSession ses, HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		rest.postForObject("http://localhost:8080/REST_addKlus", new Klus(req.getAttribute("name").toString(), klantService.getKlantByUsername(ses.getAttribute("username").toString()).get(), Integer.parseInt(req.getAttribute("prijs").toString()), req.getAttribute("beschrijving").toString()), Klus.class);
+		rest.postForObject("http://localhost:8080/REST_addKlus", new Klus(req.getParameter("name").toString(), klantService.getKlantByUsername(ses.getAttribute("username").toString()).get(), Integer.parseInt(req.getParameter("prijs").toString()), req.getParameter("beschrijving").toString()), Klus.class);
 		ses.setAttribute("statusAddKlus", "REST NOG DOEN!!!!!");
 		return "forward:restAPI";
 	}
