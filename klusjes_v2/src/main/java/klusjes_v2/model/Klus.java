@@ -113,7 +113,9 @@ public class Klus {
     public void setRating(Integer rating) {
         this.rating = rating;
     }
-
+    public Klus() {
+        this.status = StatusEnum.BESCHIKBAAR;  // Example default value
+    }
 	public Klus(Integer klusId, String name, Klant klant, Integer prijs, String beschrijving) {
 		super();
 		this.klusId = klusId;

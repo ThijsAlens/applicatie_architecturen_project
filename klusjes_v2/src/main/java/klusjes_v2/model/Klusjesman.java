@@ -39,6 +39,10 @@ public class Klusjesman {
     public void setPeople(People people) {
         this.people = people;
     }
+    
+    public Klusjesman() {
+    	
+    }
 
 	public Klusjesman(@NotBlank Integer klusjesmanId, People people) {
 		super();

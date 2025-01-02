@@ -21,9 +21,6 @@ public class KlusServiceImpl implements KlusService{
 		return (ArrayList<Klus>) repo.findAll();
 	}
 	
-	public Klus getKlusjeById(int id) {
-		return (Klus)repo.getById(id);
-	}
 	
 	public void updateKlusje(Klus k) {
 		repo.deleteById(k.getKlusId());

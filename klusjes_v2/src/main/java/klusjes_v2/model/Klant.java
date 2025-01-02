@@ -50,6 +50,10 @@ public class Klant {
     	// return username
     	return "";
     }
+    
+    public Klant() {
+    	
+    }
 
 	public Klant(People people) {
 		super();

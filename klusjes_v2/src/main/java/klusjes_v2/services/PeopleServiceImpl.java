@@ -1,6 +1,7 @@
 package klusjes_v2.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,8 @@ public class PeopleServiceImpl implements PeopleService {
 		return (ArrayList<People>) this.repo.findAll();
 	}
 	
-	public People getPeopleById(String id) {
-		return this.repo.getById(id);
+	public Optional<People> getPeopleById(String id) {
+		return repo.findById(id);
 	}
 	
-	public Klusjesman getKlusjesmanById(String id) {
-		return new Klusjesman(this.repo.getById(id));
-	}
-	
-	public Klant getKlantById(String id) {
-		return new Klant(this.repo.getById(id));
-	}
 }

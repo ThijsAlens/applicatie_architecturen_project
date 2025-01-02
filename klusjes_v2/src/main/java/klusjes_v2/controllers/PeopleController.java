@@ -159,7 +159,7 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-    			Klus klusje = klusService.getKlusjeById(klusjesID);
+    			Klus klusje = klusService.getKlusById(klusjesID);
     			Klusjesman klusjesman = (Klusjesman) peopleService.getKlusjesmanById(klusjesmanUsername);
     			klusje.setStatus(StatusEnum.TOEGEWEZEN);
     			klusje.setKlusjesman(klusjesman);
@@ -184,7 +184,7 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-    			Klus klusje= klusService.getKlusjeById(klusjeID3);
+    			Klus klusje= klusService.getKlusById(klusjeID3);
     			klusje.setRating(rating);
     			klusService.updateKlusje(klusje);
     		} catch (Exception e) {
@@ -287,7 +287,7 @@ public class PeopleController {
             
             // try to addapt the database
     		try {
-    			Klus k = klusService.getKlusjeById(klusjesID);
+    			Klus k = klusService.getKlusById(klusjesID);
     			k.setStatus(StatusEnum.UITGEVOERD);
     			klusService.updateKlusje(k);
     		} catch (Exception e) {
@@ -313,7 +313,7 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-            	Klus k = klusService.getKlusjeById(klusjesID2);
+            	Klus k = klusService.getKlusById(klusjesID2);
             	ArrayList<Klusjesman> km = klusService.getGebodenKlusjesmannenByKlusId(k.getKlusId());
             	for (int i=0; i<km.size(); i++) {
             		if (km.get(i).getPeople().getUsername() == klusjesmanUsername3) {
@@ -344,7 +344,7 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-            	Klus k = klusService.getKlusjeById(klusjesID4);
+            	Klus k = klusService.getKlusById(klusjesID4);
             	ArrayList<Klusjesman> klusjesmannen = klusService.getGebodenKlusjesmannenByKlusId(k.getKlusId());
             	klusjesmannen.add(peopleService.getKlusjesmanById(klusjesmanUsername5));
             	klusService.setGebodenKlusjesmannenByKlusId(k.getKlusId(), klusjesmannen);
