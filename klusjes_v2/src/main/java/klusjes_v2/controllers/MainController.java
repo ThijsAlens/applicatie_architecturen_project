@@ -22,15 +22,22 @@ public class MainController {
 	private PeopleServiceImpl peopleService;
 	
 	@GetMapping("/")
-	public String index() {
-		return "forward:/login";
+	public String index(HttpSession ses) {
+		switch ((String) ses.getAttribute("userType")) {
+		case "klusjesman":
+			return "forward:/klusjesman/index";
+		case "klant":
+			return "forward:/klant/index";
+		default:
+			return "forward:/login";
+		}
 	}
 	
 	@GetMapping("/login")
 	public String login(HttpSession ses) {
-		if (ses.getAttribute("userType") == Klant.class) {
+		if (ses.getAttribute("userType") == "klant") {
 			return "forward:/klant/index";
-		} else if (ses.getAttribute("userType") == Klusjesman.class) {
+		} else if (ses.getAttribute("userType") == "klusjesman") {
 			return "forward:/klusjesman/index";
 		}
 		return "login";
