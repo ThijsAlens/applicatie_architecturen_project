@@ -29,14 +29,16 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String index(HttpSession ses) {
-		switch ((String) ses.getAttribute("userType")) {
-		case "klusjesman":
-			return "forward:/klusjesman/index";
-		case "klant":
-			return "forward:/klant/index";
-		default:
-			return "forward:/login";
+		String userType = ses.getAttribute("userType").toString();
+		if (userType != null) {
+			switch (userType) {
+				case "klusjesman":
+					return "forward:/klusjesman/index";
+				case "klant":
+					return "forward:/klant/index";
+			}
 		}
+		return "forward:/login";
 	}
 	
 	@GetMapping("/login")
