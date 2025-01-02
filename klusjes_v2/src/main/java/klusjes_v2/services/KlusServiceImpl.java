@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import klusjes_v2.model.Klus;
-import klusjes_v2.model.Klusje;
+import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.repositories.KlusjesRepository;
 import klusjes_v2.repositories.PeopleRepository;
@@ -26,7 +26,7 @@ public class KlusServiceImpl implements KlusService{
 	}
 	
 	public void updateKlusje(Klus k) {
-		repo.deleteById(k.getId());
+		repo.deleteById(k.getKlusId());
 		repo.saveAndFlush(k);
 	}
 	
@@ -37,4 +37,16 @@ public class KlusServiceImpl implements KlusService{
 	public void deleteBiedingenByKlusId(int id) {
 		//TODO
 	}
+
+	public ArrayList<Klusjesman> getGebodenKlusjesmannenByKlusId(int klusId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setGebodenKlusjesmannenByKlusId(int klusId, ArrayList<Klusjesman> km) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -11,18 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import klusjes_v2.model.Klant;
-import klusjes_v2.model.Klus;
 import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
-import klusjes_v2.model.StatusEnum;
-import klusjes_v2.services.KlusServiceImpl;
 import klusjes_v2.services.PeopleServiceImpl;
 
 @Controller
 public class MainController {
-	
-	@Autowired
-	private KlusServiceImpl mainService;
 	
 	@Autowired
 	private PeopleServiceImpl peopleService;

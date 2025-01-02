@@ -14,11 +14,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import klusjes_v2.model.Klant;
 import klusjes_v2.model.Klus;
-import klusjes_v2.model.Klusje;
 import klusjes_v2.model.Klusjesman;
+import klusjes_v2.model.People;
 import klusjes_v2.model.StatusEnum;
 import klusjes_v2.services.KlusService;
-import klusjes_v2.services.KlusServiceImpl;
 import klusjes_v2.services.PeopleServiceImpl;
 
 @Controller
@@ -77,7 +76,7 @@ public class PeopleController {
 			}
 		}
 		//format the html to display the klusjes (if any) created by the user currently logged in
-		if (klusjes == null) {
+		if (klusjes.size() == 0) {
 			html = html + "<p>U heeft nog geen klusjes gemaakt</p>";
 		} else {
 			html = html + "<p>U heeft volgende klusjes gemaakt</p>";
@@ -92,7 +91,7 @@ public class PeopleController {
 				
 				case GEBODEN:
 					// er zijn klusjesmannen die het klusje willen doen, laat de klant deze toewijzen
-					ArrayList<Klusjesman>gebondenKlusjesmannen = klusjes.get(i).getGebodenKlusjesmannen();
+					ArrayList<Klusjesman>gebondenKlusjesmannen = klusService.getGebodenKlusjesmannenByKlusId(klusjes.get(i).getKlusId());
 					for (int klusjesmanIndex=0; klusjesmanIndex<gebondenKlusjesmannen.size(); klusjesmanIndex++) {
 						html = html + "<p> klusjesman met naam " + gebondenKlusjesmannen.get(klusjesmanIndex).getPeople().getUsername() + "en rating" + gebondenKlusjesmannen.get(klusjesmanIndex).getRating() + "wil graag je klusje doen, klik op de knop hiernaast om deze toe te wijzen</p>";
 						String key = "TOEWIJZEN__klusjeID=" + Integer.toString(klusjes.get(i).getKlusId()) + "__klusjesmanUsername=" + gebondenKlusjesmannen.get(klusjesmanIndex).getPeople().getUsername() + "__";
@@ -108,9 +107,14 @@ public class PeopleController {
 					html = html + "<p>Dit klusje is af. Je kan de klusjesman een rating geven:</p>";
 					html = html + "<input type=\"text\" id=\"rating\" name=\"rating\" placeholder=\"Rating\">";
 					String key = "RATING__klusjesmanUsername=" + klusjes.get(i).getKlusjesman().getPeople().getUsername();
-					html = html + "<button type=\"submit\" name=\"action\" value=\"rating__" + klusjes.get(i).getKlusjesman().getPeople().getUsername() + "\">Save</button>";
+					html = html + "<button type=\"submit\" name=\"action\" value=\"" + key + "\">Bewaar</button>";
+					break;
+				
+				case BEOORDEELD:
+					// moet niet meer weergeven worden
 					break;
 				}
+					
 			}
 		}
 		ses.setAttribute("klusje_in_HTML", html);
@@ -208,12 +212,12 @@ public class PeopleController {
 		
 		//select all klusjes that are created by klusjesman
 		for (int i=0; i<klusjes.size(); i++) {
-			if (klusjes.get(i).getKlusjesman().getKlantId() != ses.getAttribute("username") && klusjes.get(i).getStatus() != StatusEnum.TOEGEWEZEN) {
+			if (klusjes.get(i).getKlusjesman().getKlusjesmanId() != ses.getAttribute("username") && klusjes.get(i).getStatus() != StatusEnum.TOEGEWEZEN) {
 				klusjes.remove(i);
 			}
 		}
 		
-		if (klusjes == null) {
+		if (klusjes.size() == 0) {
 			html = html + "<p>U heeft nog geen klusjes toegewezen gekregen</p>";
 		} else {
 			for (int i=0; i<klusjes.size(); i++) {
@@ -234,21 +238,21 @@ public class PeopleController {
 			}
 		}
 		
-		if (klusjes == null) {
+		if (klusjes.size() == 0) {
 			html = html + "Er zijn geen klusjes waarop je kan bieden of hebt geboden.";
 		}
 		for (int i=0; i<klusjes.size(); i++) {
-			ArrayList<Klusjesman> klusjesmannen = klusjes.get(i).getGebodenKlusjesmannen();
+			ArrayList<Klusjesman> klusjesmannen = klusService.getGebodenKlusjesmannenByKlusId(klusjes.get(i).getKlusId());
 			for (int j=0; j<klusjesmannen.size(); j++) {
-				if (klusjesmannen.get(i).getKlantId() == ses.getAttribute("username")) {
+				if (klusjesmannen.get(i).getKlusjesmanId() == ses.getAttribute("username")) {
 					html = html + "<p>U bood reeds op klusje met ID" + Integer.toString(klusjes.get(i).getKlusId()) + ":\t";
 					html = html + klusjes.get(i).getBeschrijving() + " voor " + Double.toString(klusjes.get(i).getPrijs()) + "</p>";
-					String key = "BIEDEN_INTREKKEN__klusjesmanID=" + Integer.toString(klusjesman.getKlantId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
+					String key = "BIEDEN_INTREKKEN__klusjesmanID=" + Integer.toString(klusjesman.getKlusjesmanId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
 					html = html + "<input type=\"submit\" name=\"action\" value=\"" + key + "\"trek uw bieding in>";
 				} else {
 					html = html + "<p>Klusje met ID" + Integer.toString(klusjes.get(i).getKlusId()) + ":\t";
 					html = html + klusjes.get(i).getBeschrijving() + " voor " + Double.toString(klusjes.get(i).getPrijs()) + "</p>";
-					String key = "BIEDEN_TOEVOEGEN__klusjesmanID=" + Integer.toString(klusjesman.getKlantId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
+					String key = "BIEDEN_TOEVOEGEN__klusjesmanID=" + Integer.toString(klusjesman.getKlusjesmanId()) + "__klusjeID=" + klusjes.get(i).getKlusId() + "__";
 					html = html + "<input type=\"submit\" name=\"action\" value=\"" + key + "\"biedt op dit klusje>";
 				}
 			}
@@ -310,14 +314,13 @@ public class PeopleController {
             // try to addapt the database
             try {
             	Klus k = klusService.getKlusjeById(klusjesID2);
-            	ArrayList<Klusjesman> km = k.getGebodenKlusjesmannen();
+            	ArrayList<Klusjesman> km = klusService.getGebodenKlusjesmannenByKlusId(k.getKlusId());
             	for (int i=0; i<km.size(); i++) {
             		if (km.get(i).getPeople().getUsername() == klusjesmanUsername3) {
             			km.remove(i);
             		}
             	}
-            	k.setGebodenKlusjesmannen(km);
-            	klusService.updateKlusje(k);
+            	klusService.setGebodenKlusjesmannenByKlusId(k.getKlusId(), km);
             } catch (Exception e) {
             	e.printStackTrace();
             }
@@ -341,9 +344,10 @@ public class PeopleController {
             
             // try to addapt the database
             try {
-            	Klus k = klusService.getKlusjeById(klusjesID2);
-            	k.setToegewezenKlusjesman(k.getToegewezenKlusjesman().add(peopleService.getKlusjesmanById(klusjesmanUsername5)));
-            	klusService.updateKlusje(k);
+            	Klus k = klusService.getKlusjeById(klusjesID4);
+            	ArrayList<Klusjesman> klusjesmannen = klusService.getGebodenKlusjesmannenByKlusId(k.getKlusId());
+            	klusjesmannen.add(peopleService.getKlusjesmanById(klusjesmanUsername5));
+            	klusService.setGebodenKlusjesmannenByKlusId(k.getKlusId(), klusjesmannen);
             } catch (Exception e) {
             	e.printStackTrace();
             }
