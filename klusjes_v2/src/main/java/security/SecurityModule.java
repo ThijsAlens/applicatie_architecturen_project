@@ -27,13 +27,13 @@ public class SecurityModule {
 	http
 	.authorizeHttpRequests(authorize -> authorize
 			.requestMatchers("/*").permitAll()
-			//.requestMatchers("/*").authenticated()
 	)
-	.formLogin( form -> form 
-			.loginPage("/login").permitAll())
+	.formLogin(form -> form 
+			.loginPage("/login_").permitAll()
+			)
 	.logout(logout -> logout
-			.logoutSuccessUrl("/index").permitAll())
-			;
+			.logoutSuccessUrl("/").permitAll()
+			);
 	return http.build();
 	}
 	

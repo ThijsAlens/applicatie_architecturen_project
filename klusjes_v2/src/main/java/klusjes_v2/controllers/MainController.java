@@ -29,27 +29,20 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String index(HttpSession ses) {
-		String userType = ses.getAttribute("userType").toString();
-		if (userType != null) {
-			switch (userType) {
-				case "klusjesman":
-					return "forward:/klusjesman/index";
-				case "klant":
-					return "forward:/klant/index";
-			}
-		}
-		return "forward:/login";
+		if (ses.getAttribute("userType") == Klant.class)
+			return "forward:/klant/index";
+		
+		if (ses.getAttribute("userType") == Klusjesman.class)
+			return "forward:/klusjesman/index";
+		
+		return "forward:/login_";
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("/login_")
 	public String login(HttpSession ses) {
-		if (ses.getAttribute("userType") == "klant") {
-			return "forward:/klant/index";
-		} else if (ses.getAttribute("userType") == "klusjesman") {
-			return "forward:/klusjesman/index";
-		}
 		return "login";
 	}
+	
 	@PostMapping("/login_to_index")
 	public String login_to_index(Model mod, HttpSession ses, HttpServletRequest req) {
 		ArrayList<People> people = peopleService.findAllPeople();
@@ -60,13 +53,14 @@ public class MainController {
                     found = true;
                     ses.setAttribute("username", req.getParameter("username"));
                     ses.setAttribute("userType", people.get(i).getClass());
+                    break;
                 }
             }
             if (found) {
-                return "/login";
+                return "forward:/";
             }
         }
-        return "register";
+        return "forward:register_type";
 
 	}
 	
