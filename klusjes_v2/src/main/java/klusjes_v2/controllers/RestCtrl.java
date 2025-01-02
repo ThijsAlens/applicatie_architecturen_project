@@ -25,6 +25,6 @@ public class RestCtrl {
 	
 	@DeleteMapping("/REST_deleteKlus/{klusID}")
 	public void deleteKlus(@PathVariable int klusId) {
-		klusService.deleteKlusByKlusId(klusId);
+		klusService.deleteKlusByKlusId(klusId); 
 	}
 }
