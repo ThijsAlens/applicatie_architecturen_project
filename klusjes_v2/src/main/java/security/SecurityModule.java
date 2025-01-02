@@ -17,11 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityModule {
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-	return NoOpPasswordEncoder.getInstance();
-	}
-	
+
 	@Autowired
 	DataSource datasource;
 	
@@ -30,26 +26,26 @@ public class SecurityModule {
 	public SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
 	http
 	.authorizeHttpRequests(authorize -> authorize
-			.requestMatchers("/login").permitAll()
-			.requestMatchers("/*").authenticated()
+			.requestMatchers("/*").permitAll()
+			//.requestMatchers("/*").authenticated()
 	)
 	.formLogin( form -> form 
 			.loginPage("/login").permitAll())
 	.logout(logout -> logout
-			.logoutSuccessUrl("/index"))
+			.logoutSuccessUrl("/index").permitAll())
 			;
 	return http.build();
 	}
 	
-	@Autowired
-	public void dbauth(AuthenticationManagerBuilder auth) throws Exception {
-	auth
-	.jdbcAuthentication()
-	.dataSource(datasource)
-	.usersByUsernameQuery("select username,password,1 from people where username = ?")
-	.authoritiesByUsernameQuery("select 'user','role_user'");
-	;
-	}
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .jdbcAuthentication()
+            .dataSource(datasource)
+            .usersByUsernameQuery("SELECT username, password FROM people WHERE username = ?")
+            .passwordEncoder(NoOpPasswordEncoder.getInstance());  // No password encoder for plain text passwords
+    }
+
 	
 
 }
