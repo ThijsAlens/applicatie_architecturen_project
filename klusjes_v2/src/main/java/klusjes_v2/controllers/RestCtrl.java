@@ -24,6 +24,7 @@ public class RestCtrl {
 	private PeopleService peopleService;
 	@Autowired
 	private KlusService klusService;
+	@Autowired
 	private KlantService KlantService;
 	
 	@PostMapping("/addKlus")
@@ -56,7 +57,7 @@ public class RestCtrl {
                 .orElseGet(() -> ResponseEntity.notFound().build()); 
     }
     
-    @GetMapping("/klant/{id}")
+    @GetMapping("/klant/{username}")
     public ResponseEntity<Klant> getKlantByUsername(@PathVariable String username) {
         Optional<Klant> klant = KlantService.getKlantByUsername(username);
         return klant.map(ResponseEntity::ok)  // If Klant found, return 200 OK with the Klant

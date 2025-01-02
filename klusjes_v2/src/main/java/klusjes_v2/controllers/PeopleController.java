@@ -21,6 +21,8 @@ import klusjes_v2.services.KlantService;
 import klusjes_v2.services.KlantServiceImpl;
 import klusjes_v2.services.KlusService;
 import klusjes_v2.services.KlusServiceImpl;
+import klusjes_v2.services.KlusjesmanService;
+import klusjes_v2.services.KlusjesmanServiceImpl;
 import klusjes_v2.services.PeopleServiceImpl;
 
 @Controller
@@ -34,6 +36,9 @@ public class PeopleController {
 	
 	@Autowired
 	private KlantServiceImpl klantService;
+	
+	@Autowired
+	private KlusjesmanServiceImpl klusjesmanService;
 	
 	/*
 	 * ===========================================================================================================
@@ -166,7 +171,7 @@ public class PeopleController {
             // try to addapt the database
             try {
     			Klus klusje = klusService.getKlusById(klusjesID);
-    			Klusjesman klusjesman = (Klusjesman) peopleService.getKlusjesmanById(klusjesmanUsername);
+    			Klusjesman klusjesman = (Klusjesman) KlusjesmanService.getKlusjesmanByUsername(klusjesmanUsername).get();
     			klusje.setStatus(StatusEnum.TOEGEWEZEN);
     			klusje.setKlusjesman(klusjesman);
     			klusService.deleteBiedingenByKlusId(klusje.getKlusId());
