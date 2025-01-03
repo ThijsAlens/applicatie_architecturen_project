@@ -53,5 +53,20 @@ public class KlusServiceImpl implements KlusService{
 	        return repo.findById(klusId).orElse(null);
 	    
 	}
+	 
+	 public float getRatingByKlusjesmanId(int id) {
+			ArrayList<Klus> klussen = (ArrayList<Klus>) repo.findAll();
+			if (klussen.size() == 0)
+				return -1;
+			int count = 0;
+			int sum = 0;
+			for (Klus klus : klussen) {
+				if (klus.getKlusjesman().getKlusjesmanId() == id) {
+					count++;
+					sum += klus.getRating();
+				}
+			}
+			return sum / count;
+		}
 
 }

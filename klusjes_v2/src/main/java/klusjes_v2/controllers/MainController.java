@@ -17,7 +17,9 @@ import klusjes_v2.model.Klusjesman;
 import klusjes_v2.model.People;
 import klusjes_v2.services.PeopleServiceImpl;
 import klusjes_v2.services.KlantService;
+import klusjes_v2.services.KlantServiceImpl;
 import klusjes_v2.services.KlusServiceImpl;
+import klusjes_v2.services.KlusjesmanServiceImpl;
 
 @Controller
 public class MainController {
@@ -29,7 +31,10 @@ public class MainController {
 	private KlusServiceImpl klusService;
 	
 	@Autowired
-	private KlantService klantService;
+	private KlantServiceImpl klantService;
+	
+	@Autowired
+	private KlusjesmanServiceImpl klusjesmanService;
 	
 	@GetMapping("/")
 	public String index(HttpSession ses) {
@@ -76,9 +81,24 @@ public class MainController {
 	@GetMapping("/profile")
 	public String profile(HttpSession ses) {
 		if (ses.getAttribute("userType") == Klusjesman.class) {
-			;
-			ses.setAttribute("rating", rating);
+			ses.setAttribute("voornaam", klusjesmanService.getKlusjesmanByUsername(ses.getAttribute("username").toString()).get().getPeople().getVoornaam());
+			ses.setAttribute("achternaam", klusjesmanService.getKlusjesmanByUsername(ses.getAttribute("username").toString()).get().getPeople().getAchternaam());
+			float rating = klusService.getRatingByKlusjesmanId(klusjesmanService.getKlusjesmanByUsername(ses.getAttribute("username").toString()).get().getKlusjesmanId());
+			if (rating == -1) {
+				ses.setAttribute("rating", "/");
+			} else {
+				ses.setAttribute("rating", rating);
+			}
+		} else if (ses.getAttribute("userType") == Klant.class) {
+			ses.setAttribute("voornaam", klantService.getKlantByUsername(ses.getAttribute("username").toString()).get().getPeople().getVoornaam());
+			ses.setAttribute("achternaam", klantService.getKlantByUsername(ses.getAttribute("username").toString()).get().getPeople().getAchternaam());
+			ses.setAttribute("rating", "nvt");
 		}
+		return "profile";
+	}
+	
+	@PostMapping("/profile_change")
+	public String profile_change(HttpServletRequest req) {
 		return "profile";
 	}
 	

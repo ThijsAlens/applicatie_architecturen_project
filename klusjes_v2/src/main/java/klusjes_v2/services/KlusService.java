@@ -16,4 +16,5 @@ public interface KlusService {
 	public void setGebodenKlusjesmannenByKlusId(int klusId, ArrayList<Klusjesman> km);
 	public void deleteKlusByKlusId(int klusId);
 	public Klus getKlusById(int klusID);
+	public float getRatingByKlusjesmanId(int id);
 }

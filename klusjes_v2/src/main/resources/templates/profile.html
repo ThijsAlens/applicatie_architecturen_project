@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<div th:replace="fragments/general.html :: head"></div>
+	<div th:replace="fragments/general.html :: header"></div>
+	
+	<h1>
+	    Log in
+	</h1>
+	<form action="/profile_change" method="post">
+	    <input type="text" id="voornaam" name="voornaam" placeholder="voornaam aanpassen" >
+	    <input type="text" id="achternaam" name="achternaam" placeholder="achternaam aanpassen">
+	    <input type="submit" value="pas aan">
+	</form>	
+	<div th:replace="fragments/general.html :: footer"></div>
+</html>
