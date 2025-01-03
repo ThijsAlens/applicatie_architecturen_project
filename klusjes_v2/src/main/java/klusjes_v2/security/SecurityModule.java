@@ -26,14 +26,15 @@ public class SecurityModule {
 	public SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
 	http
 	.authorizeHttpRequests(authorize -> authorize
-			.requestMatchers("/*").permitAll()
+			.requestMatchers("/**").permitAll()
 	)
 	.formLogin(form -> form 
 			.loginPage("/login_").permitAll()
 			)
 	.logout(logout -> logout
 			.logoutSuccessUrl("/").permitAll()
-			);
+			)
+	.csrf().disable();
 	return http.build();
 	}
 	
