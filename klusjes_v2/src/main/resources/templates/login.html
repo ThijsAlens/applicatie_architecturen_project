@@ -9,7 +9,7 @@
 	<p>
 		<h1>Welcome, <span th:text="${#authentication.name}">User</span>!</h1>
 	</p>
-	<form th:action="@{/login}" method='POST'>
+	<form th:action="@{/loginPost}" method='POST'>
 	    <input type="text" id="username" name="username" placeholder="e-mail" >
 	    <input type="text" id="password" name="password" placeholder="wachtwoord">
 	    <input type="submit" value="Log in">
