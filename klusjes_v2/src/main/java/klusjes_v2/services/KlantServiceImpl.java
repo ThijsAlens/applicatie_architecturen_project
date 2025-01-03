@@ -32,4 +32,8 @@ public class KlantServiceImpl implements KlantService {
 		repo.save(k);
 	}
 	
+    public boolean isKlant(String username) {
+        Optional<Klant> klant = repo.findByPeople_Username(username);  
+        return klant != null; 
+    }
 }

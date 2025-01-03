@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,40 +39,55 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String index(HttpSession ses) {
+		System.out.println(ses.getAttribute("userType"));
 		if (ses.getAttribute("userType") == Klant.class)
 			return "forward:/klant/index";
 		
 		if (ses.getAttribute("userType") == Klusjesman.class)
 			return "forward:/klusjesman/index";
 		
-		return "forward:/login_";
+		return "forward:/login";
 	}
 	
-	@GetMapping("/login_")
-	public String login(HttpSession ses) {
-		return "login";
-	}
-	
-	@PostMapping("/login_to_index")
-	public String login_to_index(Model mod, HttpSession ses, HttpServletRequest req) {
-		ArrayList<People> people = peopleService.findAllPeople();
+    // Login page (GET)
+    @GetMapping("/login")
+    public String login(HttpSession session) {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginToIndex(Model mod, HttpSession ses, HttpServletRequest req) {
+        ArrayList<People> people = peopleService.findAllPeople();  // Fetch all users
         if (people != null) {
-            Boolean found = false;
-            for(int i=0; i<people.size(); i++) {
-                if (req.getParameter("username") == people.get(i).getUsername() && req.getParameter("password") == people.get(i).getPassword()) {
+            boolean found = false;
+            for (int i = 0; i < people.size(); i++) {
+                // Compare the username and password with the data from the form
+                if (req.getParameter("username").equals(people.get(i).getUsername()) &&
+                    req.getParameter("password").equals(people.get(i).getPassword())) {
                     found = true;
+                    // Store the username and userType in the session
                     ses.setAttribute("username", req.getParameter("username"));
                     ses.setAttribute("userType", people.get(i).getClass());
                     break;
                 }
             }
+
+            // If user is found, redirect to the home page
             if (found) {
                 return "forward:/";
             }
         }
-        return "forward:register_type";
 
-	}
+        // If no matching user is found, forward to the registration page
+        return "forward:/register_type";
+    }
+
+    // Logout (invalidate session)
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();  // Invalidate the session to log out the user
+        return "redirect:/login";  // Redirect to login page
+    }
 	
 	@GetMapping("/register_type")
 	public String register() {

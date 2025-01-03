@@ -11,4 +11,5 @@ public interface KlantService {
 	public Optional <Klant> getKlantByUsername(String Username);
 	public Optional<Klant> getKlantById(Integer id);
 	public void updateKlant(Klant k);
+	public boolean isKlant(String username);
 }

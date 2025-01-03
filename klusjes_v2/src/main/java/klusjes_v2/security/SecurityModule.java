@@ -29,7 +29,7 @@ public class SecurityModule {
 			.requestMatchers("/**").permitAll()
 	)
 	.formLogin(form -> form 
-			.loginPage("/login_").permitAll()
+			.loginPage("/login").permitAll()
 			)
 	.logout(logout -> logout
 			.logoutSuccessUrl("/").permitAll()
@@ -43,7 +43,12 @@ public class SecurityModule {
         auth
             .jdbcAuthentication()
             .dataSource(datasource)
-            .usersByUsernameQuery("SELECT username, password FROM people WHERE username = ?")
+            .usersByUsernameQuery("SELECT username, password,1 FROM people WHERE username = ?")
+            .authoritiesByUsernameQuery(
+                    "SELECT p.username, r.ROLE_NAME FROM people p " +
+                    "JOIN user_roles ur ON p.username = ur.username " +
+                    "JOIN roles r ON ur.ROLE_ID = r.ROLE_ID " +
+                    "WHERE p.username = ?")
             .passwordEncoder(NoOpPasswordEncoder.getInstance());  // No password encoder for plain text passwords
     }
 	
