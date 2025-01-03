@@ -26,5 +26,10 @@ public class KlantServiceImpl implements KlantService {
 	public Optional<Klant> getKlantById(Integer id) {
 		return repo.findById(id);
 	}
+
+	public void updateKlant(Klant k) {
+		repo.deleteById(k.getKlantId());;
+		repo.save(k);
+	}
 	
 }

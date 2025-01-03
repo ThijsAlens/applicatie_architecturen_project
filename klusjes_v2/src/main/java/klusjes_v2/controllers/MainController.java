@@ -98,7 +98,30 @@ public class MainController {
 	}
 	
 	@PostMapping("/profile_change")
-	public String profile_change(HttpServletRequest req) {
+	public String profile_change(HttpSession ses, HttpServletRequest req) {
+		String voornaam = req.getParameter("voornaam_replace").toString();
+		String achternaam = req.getParameter("achternaam_replace").toString();
+		if (ses.getAttribute("userType") == Klant.class) {
+			if (voornaam != "") {
+				Klant k = klantService.getKlantByUsername(ses.getAttribute("username").toString()).get();
+				k.getPeople().setVoornaam(voornaam);
+				klantService.updateKlant(k);
+			} else if (achternaam != "") {
+				Klant k = klantService.getKlantByUsername(ses.getAttribute("username").toString()).get();
+				k.getPeople().setAchternaam(achternaam);
+				klantService.updateKlant(k);
+			}
+		} else if (ses.getAttribute("userType") == Klusjesman.class) {
+			if (voornaam != "") {
+				Klusjesman k = klusjesmanService.getKlusjesmanByUsername(ses.getAttribute("username").toString()).get();
+				k.getPeople().setVoornaam(voornaam);
+				klusjesmanService.updateKlusjesman(k);
+			} else if (achternaam != "") {
+				Klusjesman k = klusjesmanService.getKlusjesmanByUsername(ses.getAttribute("username").toString()).get();
+				k.getPeople().setAchternaam(achternaam);
+				klusjesmanService.updateKlusjesman(k);
+			}
+		}
 		return "profile";
 	}
 	

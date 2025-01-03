@@ -27,6 +27,11 @@ public class KlusjesmanServiceImpl implements KlusjesmanService {
 	public Optional<Klusjesman> getKlusjesmanById(Integer id) {
 		return repo.findById(id);
 	}
+
+	public void updateKlusjesman(Klusjesman k) {
+		repo.deleteById(k.getKlusjesmanId());;
+		repo.save(k);
+	}
 	
 	
 	

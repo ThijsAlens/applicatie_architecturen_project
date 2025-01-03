@@ -10,4 +10,5 @@ import klusjes_v2.model.People;
 public interface KlusjesmanService {
 	public Optional <Klusjesman> getKlusjesmanByUsername(String Username);
 	public Optional<Klusjesman> getKlusjesmanById(Integer id);
+	public void updateKlusjesman(Klusjesman k);
 }
