@@ -1,4 +1,4 @@
-package security;
+package klusjes_v2.security;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

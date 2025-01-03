@@ -1,4 +1,4 @@
-package security;
+package klusjes_v2.security;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
